@@ -6,10 +6,9 @@ import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
 
 import {useEffect, useState} from 'react';
-
-import Button from '@mui/material/Button';
-import {CircularProgress, Dialog, DialogActions, DialogContent, DialogTitle, Slider, Typography} from "@mui/material";
-import {twMerge} from "tailwind-merge";
+import {Card, CardContent, CardHeader, Slider} from "@mui/material";
+import NetworkDialog from "./components/NetworkDialog.tsx";
+import AnimationButtons from "./components/AnimationButtons.tsx";
 
 const API_ENDPOINT = 'http://raspberrypi.local:5000';
 
@@ -33,56 +32,7 @@ async function api_animation({animationName, color, speed}: AnimationProps) {
   return res.status === 200;
 }
 
-export function NetworkDialog({show = false, onCancel, onRetry}: {
-  show?: boolean,
-  onCancel?: () => void,
-  onRetry?: () => void
-}) {
-  return (
-    <Dialog open={show}>
-      <DialogTitle style={{color: 'red'}}>Network Error</DialogTitle>
-      <DialogContent style={{color: 'red'}}>
-        An error occurred while trying to connect to raspberrypi.local.
-      </DialogContent>
-      <DialogActions>
-        <Button onClick={onCancel}>Cancel</Button>
-        <Button onClick={onRetry}>Retry</Button>
-      </DialogActions>
-    </Dialog>
-  );
-}
-
-export function AnimationButtons({className, currentAnimation = '', onSetAnimation}: {
-  className?: string;
-  currentAnimation?: string,
-  onSetAnimation?: (anim: string) => Promise<void>
-}) {
-  const [loadingAnimation, setLoadingAnimation] = useState<string | undefined>();
-
-  const animations: string[] = [
-    'Solid', 'Blink', 'Chase', 'Comet', 'Pulse', 'Rainbow',
-    'Sparkle', 'Rainbow_Chase', 'Rainbow_Comet', 'Rainbow_Sparkle', 'Sparkle_Pulse'
-  ];
-
-  async function _onSetAnimation(anim: string) {
-    setLoadingAnimation(anim);
-    await onSetAnimation?.(anim);
-    setLoadingAnimation(undefined);
-  }
-
-  return animations.map(anim =>
-    <Button key={anim}
-            className={twMerge("min-w-[200px]", className)}
-            variant={anim?.toLowerCase?.() === currentAnimation?.toLowerCase?.() ? "contained" : "outlined"}
-            onClick={() => _onSetAnimation(anim)}
-            disabled={!!loadingAnimation}
-    >
-      {loadingAnimation === anim ? <CircularProgress size={20}/> : anim?.replaceAll?.('_', ' ')}
-    </Button>
-  );
-}
-
-function App() {
+export default function App() {
   const [animationName, setAnimationName] = useState<string | undefined>();
   const [speed, setSpeed] = useState(0.25);
   const [hasNetworkError, setNetworkError] = useState<boolean>(false);
@@ -121,29 +71,34 @@ function App() {
   }
 
   return (
-    <div className="flex flex-col gap-1">
+    <div className="flex flex-col items-center gap-1 py-3">
       <NetworkDialog show={hasNetworkError} onCancel={() => setNetworkError(false)}
                      onRetry={() => setCounter(prev => prev + 1)}/>
-      <Typography>Speed</Typography>
-      <Slider aria-label="Speed"
-              style={{width: 200}}
-              value={speed}
-              onChange={(_evt, value) => setSpeed(Array.isArray(value) ? value[0] : value)}
-              valueLabelDisplay="on"
-              min={0}
-              max={5}
-              step={0.01}
-      />
-      <div className="size-fit p-3 border border-slate-300 border-solid rounded-[0.5rem]">
-        <div className="grid grid-cols-3 w-fit gap-1">
-          <AnimationButtons className="flex-1 w-[175px]"
-                            currentAnimation={animationName}
-                            onSetAnimation={setAnimation}
-          />
-        </div>
+      <div className="flex items-stretch gap-5">
+        <Card className="w-fit p-3">
+          <CardHeader title="Animations"/>
+          <CardContent className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 w-fit gap-1">
+            <AnimationButtons className="flex-1 w-[175px]"
+                              currentAnimation={animationName}
+                              onSetAnimation={setAnimation}
+            />
+          </CardContent>
+        </Card>
+        <Card className="w-fit p-3">
+          <CardHeader title={`Speed: ${speed} sec`}/>
+          <CardContent>
+            <Slider aria-label="Speed"
+                    style={{width: 200}}
+                    value={speed}
+                    onChange={(_evt, value) => setSpeed(Array.isArray(value) ? value[0] : value)}
+                    marks={[{value: 0.1, label: '0.1 sec'}, {value: 5, label: '5 sec'}]}
+                    min={0.1}
+                    max={5}
+                    step={0.1}
+            />
+          </CardContent>
+        </Card>
       </div>
     </div>
   );
 }
-
-export default App;
