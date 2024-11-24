@@ -12,3 +12,7 @@ app = Flask(__name__)
 def animation():
     led_app.request_animation(request)
     return { "status": 200 }
+
+@app.after_request
+def setup_cors(response):
+    response.headers["Access-Control-Allow-Origin"] = "*"
