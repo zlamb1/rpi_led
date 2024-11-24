@@ -14,131 +14,136 @@ import {twMerge} from "tailwind-merge";
 const API_ENDPOINT = 'http://raspberrypi.local:5000';
 
 interface AnimationProps {
-    animationName: string;
-    color: string;
-    speed: number;
+  animationName: string;
+  color: string;
+  speed: number;
 }
 
 async function api_animation({animationName, color, speed}: AnimationProps) {
-    const formData = new FormData();
-    formData.append('animation_name', animationName);
-    formData.append('color', color);
-    formData.append('speed', speed?.toString?.());
+  const formData = new FormData();
+  formData.append('animation_name', animationName);
+  formData.append('color', color);
+  formData.append('speed', speed?.toString?.());
 
-    const res = await fetch(`${API_ENDPOINT}/api/animation`, {
-        body: formData,
-        method: 'POST'
-    });
+  const res = await fetch(`${API_ENDPOINT}/api/animation`, {
+    body: formData,
+    method: 'POST'
+  });
 
-    return res.status === 200;
+  return res.status === 200;
 }
 
 export function NetworkDialog({show = false, onCancel, onRetry}: {
-    show?: boolean,
-    onCancel?: () => void,
-    onRetry?: () => void
+  show?: boolean,
+  onCancel?: () => void,
+  onRetry?: () => void
 }) {
-    return (
-        <Dialog open={show}>
-            <DialogTitle style={{color: 'red'}}>Network Error</DialogTitle>
-            <DialogContent style={{color: 'red'}}>
-                An error occurred while trying to connect to raspberrypi.local.
-            </DialogContent>
-            <DialogActions>
-                <Button onClick={onCancel}>Cancel</Button>
-                <Button onClick={onRetry}>Retry</Button>
-            </DialogActions>
-        </Dialog>
-    );
+  return (
+    <Dialog open={show}>
+      <DialogTitle style={{color: 'red'}}>Network Error</DialogTitle>
+      <DialogContent style={{color: 'red'}}>
+        An error occurred while trying to connect to raspberrypi.local.
+      </DialogContent>
+      <DialogActions>
+        <Button onClick={onCancel}>Cancel</Button>
+        <Button onClick={onRetry}>Retry</Button>
+      </DialogActions>
+    </Dialog>
+  );
 }
 
 export function AnimationButtons({className, currentAnimation = '', onSetAnimation}: {
-    className?: string;
-    currentAnimation?: string,
-    onSetAnimation?: (anim: string) => Promise<void>
+  className?: string;
+  currentAnimation?: string,
+  onSetAnimation?: (anim: string) => Promise<void>
 }) {
-    const [loadingAnimation, setLoadingAnimation] = useState<string | undefined>();
+  const [loadingAnimation, setLoadingAnimation] = useState<string | undefined>();
 
-    const animations: string[] = [
-        'Solid', 'Blink', 'Chase', 'Comet', 'Pulse', 'Rainbow',
-        'Sparkle', 'Rainbow_Chase', 'Rainbow_Comet', 'Rainbow_Sparkle', 'Sparkle_Pulse'
-    ];
+  const animations: string[] = [
+    'Solid', 'Blink', 'Chase', 'Comet', 'Pulse', 'Rainbow',
+    'Sparkle', 'Rainbow_Chase', 'Rainbow_Comet', 'Rainbow_Sparkle', 'Sparkle_Pulse'
+  ];
 
-    async function _onSetAnimation(anim: string) {
-        setLoadingAnimation(anim);
-        await onSetAnimation?.(anim);
-        setLoadingAnimation(undefined);
-    }
+  async function _onSetAnimation(anim: string) {
+    setLoadingAnimation(anim);
+    await onSetAnimation?.(anim);
+    setLoadingAnimation(undefined);
+  }
 
-    return animations.map(anim =>
-        <Button key={anim}
-                className={twMerge("min-w-[200px]", className)}
-                variant={anim?.toLowerCase?.() === currentAnimation?.toLowerCase?.() ? "contained" : "outlined"}
-                onClick={() => _onSetAnimation(anim)}
-                disabled={!!loadingAnimation}
-        >
-            {loadingAnimation === anim ? <CircularProgress size={20}/> : anim}
-        </Button>
-    );
+  return animations.map(anim =>
+    <Button key={anim}
+            className={twMerge("min-w-[200px]", className)}
+            variant={anim?.toLowerCase?.() === currentAnimation?.toLowerCase?.() ? "contained" : "outlined"}
+            onClick={() => _onSetAnimation(anim)}
+            disabled={!!loadingAnimation}
+    >
+      {loadingAnimation === anim ? <CircularProgress size={20}/> : anim?.replaceAll?.('_', ' ')}
+    </Button>
+  );
 }
 
 function App() {
-    const [animationName, setAnimationName] = useState<string | undefined>();
-    const [speed, setSpeed] = useState(0.25);
-    const [hasNetworkError, setNetworkError] = useState<boolean>(false);
-    const [counter, setCounter] = useState(1);
+  const [animationName, setAnimationName] = useState<string | undefined>();
+  const [speed, setSpeed] = useState(0.25);
+  const [hasNetworkError, setNetworkError] = useState<boolean>(false);
+  const [counter, setCounter] = useState(1);
 
-    // fetch active animation on load
-    useEffect(() => {
-        setNetworkError(false);
-        setTimeout(() => {
-            fetch(`${API_ENDPOINT}/api/animation`, {method: 'GET'})
-                .then(res => {
-                    res.json().then(data => {
-                        if (data.animation_name) {
-                            setAnimationName(data.animation_name);
-                        }
-                    }).catch(() => {
-                    });
-                }).catch(() => setNetworkError(true));
-        }, 250);
-    }, [counter]);
-
-    async function setAnimation(name: string) {
-        try {
-            const res: boolean = await api_animation({
-                animationName: name?.toLowerCase?.() ?? 'solid',
-                color: '#ffffff',
-                speed
-            });
-            if (res) {
-                setAnimationName(name);
+  // fetch active animation on load
+  useEffect(() => {
+    setNetworkError(false);
+    setTimeout(() => {
+      fetch(`${API_ENDPOINT}/api/animation`, {method: 'GET'})
+        .then(res => {
+          res.json().then(data => {
+            if (data.animation_name) {
+              setAnimationName(data.animation_name);
             }
-        } catch (err) {
-            console.error(err);
-            setNetworkError(true);
-        }
-    }
+          }).catch(() => {
+          });
+        }).catch(() => setNetworkError(true));
+    }, 250);
+  }, [counter]);
 
-    return (
-        <div className="flex flex-col gap-1">
-            <NetworkDialog show={hasNetworkError} onCancel={() => setNetworkError(false)}
-                           onRetry={() => setCounter(prev => prev + 1)}/>
-            <Typography>Speed</Typography>
-            <Slider aria-label="Speed"
-                    style={{width: 200}}
-                    value={speed}
-                    onChange={(_evt, value) => setSpeed(Array.isArray(value) ? value[0] : value)}
-                    valueLabelDisplay="on"
-                    min={0}
-                    max={5}
-                    step={0.01}
-            />
-            <div className="flex flex-col">
-                <AnimationButtons currentAnimation={animationName} onSetAnimation={setAnimation}/>
-            </div>
+  async function setAnimation(name: string) {
+    try {
+      const res: boolean = await api_animation({
+        animationName: name?.toLowerCase?.()?.replaceAll('_', '') ?? 'solid',
+        color: '#ffffff',
+        speed
+      });
+      if (res) {
+        setAnimationName(name);
+      }
+    } catch (err) {
+      console.error(err);
+      setNetworkError(true);
+    }
+  }
+
+  return (
+    <div className="flex flex-col gap-1">
+      <NetworkDialog show={hasNetworkError} onCancel={() => setNetworkError(false)}
+                     onRetry={() => setCounter(prev => prev + 1)}/>
+      <Typography>Speed</Typography>
+      <Slider aria-label="Speed"
+              style={{width: 200}}
+              value={speed}
+              onChange={(_evt, value) => setSpeed(Array.isArray(value) ? value[0] : value)}
+              valueLabelDisplay="on"
+              min={0}
+              max={5}
+              step={0.01}
+      />
+      <div className="size-fit p-3 border border-slate-300 border-solid rounded-[0.5rem]">
+        <div className="grid grid-cols-3 w-fit gap-1">
+          <AnimationButtons className="flex-1 w-[175px]"
+                            currentAnimation={animationName}
+                            onSetAnimation={setAnimation}
+          />
         </div>
-    );
+      </div>
+    </div>
+  );
 }
 
 export default App;
