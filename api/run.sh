@@ -1,1 +1,1 @@
-sudo python3 -m flask --app web_server run
+sudo python3 -m flask --app web_server run --host=0.0.0.0
