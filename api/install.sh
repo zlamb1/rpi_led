@@ -1,2 +1,1 @@
-python -m venv .venv
-pip install flask
+sudo pip3 install flask
