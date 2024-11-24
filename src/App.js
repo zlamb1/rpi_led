@@ -1,13 +1,15 @@
 import logo from './logo.svg';
 import './App.css';
 
+const API_ENDPOINT = '';
+
 async function api_animation({ animation_name, color, speed }) {
   const formData = new FormData();
   formData.append('animation_name', animation_name);
   formData.append('color', color);
   formData.append('speed', speed);
 
-  const res = await fetch('/api/animation', {
+  const res = await fetch(`${API_ENDPOINT}/api/animation`, {
     body: formData,
     method: 'POST'
   });
