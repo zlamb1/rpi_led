@@ -32,15 +32,17 @@ async function api_animation({animationName, color, speed}: AnimationProps) {
   return res.status === 200;
 }
 
+const defaultErrorMsg = 'A network error occurred while attempting to connect to the remote device.';
+
 export default function App() {
   const [animationName, setAnimationName] = useState<string | undefined>();
   const [speed, setSpeed] = useState(0.25);
-  const [hasNetworkError, setNetworkError] = useState<boolean>(false);
+  const [networkError, setNetworkError] = useState<string>('');
   const [counter, setCounter] = useState(1);
 
   // fetch active animation on load
   useEffect(() => {
-    setNetworkError(false);
+    setNetworkError('');
     setTimeout(() => {
       fetch(`${API_ENDPOINT}/api/animation`, {method: 'GET'})
         .then(res => {
@@ -50,7 +52,7 @@ export default function App() {
             }
           }).catch(() => {
           });
-        }).catch(() => setNetworkError(true));
+        }).catch(() => setNetworkError(defaultErrorMsg));
     }, 250);
   }, [counter]);
 
@@ -63,16 +65,20 @@ export default function App() {
       });
       if (res) {
         setAnimationName(name);
+      } else {
+        setNetworkError('An internal server error occurred.');
       }
     } catch (err) {
       console.error(err);
-      setNetworkError(true);
+      setNetworkError(defaultErrorMsg);
     }
   }
 
   return (
     <div className="flex flex-col items-center gap-1 py-3">
-      <NetworkDialog show={hasNetworkError} onCancel={() => setNetworkError(false)}
+      <NetworkDialog msg={networkError}
+                     show={!!networkError}
+                     onCancel={() => setNetworkError('')}
                      onRetry={() => setCounter(prev => prev + 1)}/>
       <div className="flex items-stretch gap-5">
         <Card className="w-fit p-3">

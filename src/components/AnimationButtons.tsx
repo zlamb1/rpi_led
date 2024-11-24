@@ -1,7 +1,13 @@
-import {useState} from "react";
+import {ReactNode, useState} from "react";
 import Button from "@mui/material/Button";
 import {twMerge} from "tailwind-merge";
 import {CircularProgress} from "@mui/material";
+
+interface AnimationButtonProps {
+  label: string;
+  value?: string;
+  icon?: ReactNode;
+}
 
 export default function AnimationButtons({className, currentAnimation = '', onSetAnimation}: {
   className?: string;
@@ -10,10 +16,24 @@ export default function AnimationButtons({className, currentAnimation = '', onSe
 }) {
   const [loadingAnimation, setLoadingAnimation] = useState<string | undefined>();
 
-  const animations: string[] = [
-    'Solid', 'Blink', 'Chase', 'Comet', 'Pulse', 'Rainbow',
-    'Sparkle', 'Rainbow_Chase', 'Rainbow_Comet', 'Rainbow_Sparkle', 'Sparkle_Pulse'
+  const animations: AnimationButtonProps[] = [
+    {label: 'Solid'},
+    {label: 'Blink'},
+    {label: 'Chase'},
+    {label: 'Comet'},
+    {label: 'Pulse'},
+    {label: 'Rainbow'},
+    {label: 'Sparkle'},
+    {label: 'Rainbow_Chase', value: 'RainbowChase'},
+    {label: 'Rainbow_Comet', value: 'RainbowComet'},
+    {label: 'Rainbow_Sparkle', value: 'RainbowSparkle'},
+    {label: 'Sparkle_Pulse', value: 'SparklePulse'},
+    {label: 'Music'},
   ];
+
+  function value(props: AnimationButtonProps) {
+    return props.value ?? props.label;
+  }
 
   async function _onSetAnimation(anim: string) {
     setLoadingAnimation(anim);
@@ -21,14 +41,14 @@ export default function AnimationButtons({className, currentAnimation = '', onSe
     setLoadingAnimation(undefined);
   }
 
-  return animations.map(anim =>
-    <Button key={anim}
+  return animations.map(props =>
+    <Button key={value(props)}
             className={twMerge("min-w-[200px]", className)}
-            variant={anim?.toLowerCase?.() === currentAnimation?.toLowerCase?.() ? "contained" : "outlined"}
-            onClick={() => _onSetAnimation(anim)}
+            variant={value(props)?.toLowerCase() === currentAnimation?.toLowerCase?.() ? "contained" : "outlined"}
+            onClick={() => _onSetAnimation(value(props))}
             disabled={!!loadingAnimation}
     >
-      {loadingAnimation === anim ? <CircularProgress size={20}/> : anim?.replaceAll?.('_', ' ')}
+      {loadingAnimation === value(props) ? <CircularProgress size={20}/> : props.label.replaceAll?.('_', ' ')}
     </Button>
   );
 }
