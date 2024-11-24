@@ -1,14 +1,14 @@
 from flask import Flask, request
 
-# from led.light_driver import LightDriver
-# from led.server import LEDApp
+from led.light_driver import LightDriver
+from led.server import LEDApp
 
-# pixels = LightDriver(num_pixels = 300)
-# led_app = LEDApp(pixels)
+pixels = LightDriver(num_pixels = 300)
+led_app = LEDApp(pixels)
 
 app = Flask(__name__)
 
 @app.route("/api/animation", methods=['POST'])
 def animation():
-    # led_app.request_animation(request)
+    led_app.request_animation(request)
     return { "status": 200 }
