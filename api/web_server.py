@@ -1,7 +1,7 @@
 from flask import Flask, request
 
 from led.light_driver import LightDriver
-from led.server import LEDApp
+from led.app import LEDApp
 
 pixels = LightDriver(num_pixels = 300)
 led_app = LEDApp(pixels)
