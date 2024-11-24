@@ -17,7 +17,7 @@
     "start": "react-scripts start",
     "start-api": "cd api && ./run.sh",
     "build": "react-scripts build",
-    "serve": "react-scripts build && npx serve -s build -l 5000",
+    "serve": "react-scripts build && npx serve -s build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
