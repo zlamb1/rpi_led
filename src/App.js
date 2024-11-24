@@ -1,7 +1,6 @@
-import logo from './logo.svg';
 import './App.css';
 
-const API_ENDPOINT = '';
+const API_ENDPOINT = 'http://raspberrypi.local:5000';
 
 async function api_animation({ animation_name, color, speed }) {
   const formData = new FormData();
