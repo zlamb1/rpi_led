@@ -1,5 +1,5 @@
 from flask import Flask, request
-from flask-cors import CORS
+from flask_cors import CORS
 
 from led.light_driver import LightDriver
 from led.app import LEDApp
