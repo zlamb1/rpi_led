@@ -6,12 +6,12 @@ import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
 
 import {useEffect, useState} from 'react';
-import {Card, CardContent, CardHeader} from "@mui/material";
+import {Box, Card, CardContent, CardHeader} from "@mui/material";
 import NetworkDialog from "./components/NetworkDialog.tsx";
 import AnimationButtons from "./components/AnimationButtons.tsx";
 import AnimationOptions from "./components/AnimationOptions.tsx";
 import {AnimationState, isAnimationState} from "./components/animation-state.ts";
-import Button from "@mui/material/Button";
+import BottomAppBar from "./components/BottomAppBar.tsx";
 
 export const API_ENDPOINT = 'http://raspberrypi.local:5000';
 
@@ -80,7 +80,7 @@ export default function App() {
   }
 
   return (
-    <div className="flex flex-col items-center gap-1 py-3">
+    <Box>
       <NetworkDialog msg={networkError}
                      show={!!networkError}
                      onCancel={() => setNetworkError('')}
@@ -107,10 +107,8 @@ export default function App() {
                               } as AnimationState))}/>
           </CardContent>
         </Card>
-        <Card className="p-3">
-          <Button type="submit" onClick={setAnimation}>Submit</Button>
-        </Card>
       </div>
-    </div>
+      <BottomAppBar onSend={setAnimation}/>
+    </Box>
   );
 }
