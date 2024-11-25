@@ -1,7 +1,7 @@
 import {FormHelperText, FormLabel, Slider} from "@mui/material";
-import {Dispatch, FunctionComponent, SetStateAction} from "react";
+import {Dispatch, FunctionComponent, SetStateAction, useContext} from "react";
 import CometAnimationOptions from "./options/CometAnimationOptions.tsx";
-import {AnimationState} from "../animation-state.ts";
+import {AnimationState, PossibleAnimationStateProvider} from "../animation-state.ts";
 import ChaseAnimationOptions from "./options/ChaseAnimationOptions.tsx";
 import {FormControl} from "@mui/base";
 import Expand from "../Expand.tsx";
@@ -12,8 +12,6 @@ import RainbowCometAnimationOptions from "./options/RainbowCometAnimationOptions
 import RainbowSparkleAnimationOptions from "./options/RainbowSparkleAnimationOptions.tsx";
 
 export interface AnimationOptionsProps {
-  state?: AnimationState;
-  setState?: Dispatch<SetStateAction<AnimationState | undefined>>;
   minSpeed?: number;
   maxSpeed?: number;
   speedStep?: number;
@@ -21,12 +19,12 @@ export interface AnimationOptionsProps {
 }
 
 export default function AnimationOptions({
-                                           state,
-                                           setState,
                                            minSpeed = 0.1,
                                            maxSpeed = 5,
                                            speedStep = minSpeed,
                                          }: AnimationOptionsProps) {
+  const {state, setState} = useContext(PossibleAnimationStateProvider);
+
   type OptionComponents = { [key: string]: FunctionComponent };
   const optionComponents: OptionComponents = {
     'chase': ChaseAnimationOptions,

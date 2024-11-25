@@ -7,12 +7,12 @@ export interface AnimationState {
 }
 
 type AnimationStateContext = {
-  state: AnimationState | undefined;
-  setState: Dispatch<SetStateAction<AnimationState | undefined>>;
-} | undefined;
+  state?: AnimationState;
+  setState?: Dispatch<SetStateAction<AnimationState | undefined>>;
+};
 
-export const GlobalAnimationState = createContext<AnimationStateContext>(undefined);
-export const PossibleAnimationState = createContext<AnimationStateContext>(undefined);
+export const ActiveAnimationStateProvider = createContext<AnimationStateContext>({});
+export const PossibleAnimationStateProvider = createContext<AnimationStateContext>({});
 
 export function isAnimationState(state: unknown) {
   return state instanceof Object && "animation_name" in state && "speed" in state;
