@@ -46,7 +46,7 @@ export default function CometAnimationOptions({state, setState}: {
           <Switch checked={state?.ring ?? false}
                   onChange={(evt: ChangeEvent<HTMLInputElement>) => setState?.(prev => ({
                     ...prev,
-                    bounce: evt.target.checked
+                    ring: evt.target.checked
                   } as AnimationState))}/>
         </div>
         <FormHelperText>Comet will use ring mode.</FormHelperText>
