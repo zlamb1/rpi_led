@@ -14,7 +14,7 @@ export default function CometAnimationOptions({state, setState}: {
     <Fragment>
       <FormControl>
         <FormLabel>Tail Length</FormLabel>
-        <NumberInput value={state?.tail_length}
+        <NumberInput value={state?.tail_length ?? 0}
                      onChange={(_evt, value) => setState?.(prev => ({...prev, tail_length: value} as AnimationState))}
                      placeholder="Enter tail length"
         />

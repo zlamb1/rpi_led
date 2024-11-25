@@ -13,7 +13,7 @@ export default function ChaseAnimationOptions({state, setState}: {
     <Fragment>
       <FormControl>
         <FormLabel>Size</FormLabel>
-        <NumberInput value={state?.size}
+        <NumberInput value={state?.size ?? 0}
                      onChange={(_evt, value) => setState?.(prev => ({...prev, size: value} as AnimationState))}
                      placeholder="Enter size"
         />
@@ -21,13 +21,13 @@ export default function ChaseAnimationOptions({state, setState}: {
       </FormControl>
       <FormControl>
         <FormLabel>Spacing</FormLabel>
-        <NumberInput value={state?.spacing}
+        <NumberInput value={state?.spacing ?? 0}
                      onChange={(_evt, value) => setState?.(prev => ({...prev, spacing: value} as AnimationState))}
                      placeholder="Enter spacing"
         />
         <FormHelperText>Number of pixels that turn off in a row.</FormHelperText>
       </FormControl>
-      <ReverseFormControl state={state} setState={setState} />
+      <ReverseFormControl state={state} setState={setState}/>
     </Fragment>
   );
 }
