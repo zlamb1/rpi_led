@@ -30,7 +30,7 @@ export default function AnimationOptions({
   return (
     <div className="flex flex-col gap-5">
       <Slider aria-label="Speed"
-              value={state?.speed}
+              value={state?.speed ?? minSpeed}
               onChange={(_evt, value) => setState?.(prev => ({
                 ...prev,
                 speed: Array.isArray(value) ? value[0] : value

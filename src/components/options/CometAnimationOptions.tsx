@@ -31,17 +31,6 @@ export default function CometAnimationOptions({state, setState}: {
       </FormControl>
       <FormControl>
         <div className="flex items-center gap-1">
-          <FormLabel>Reverse</FormLabel>
-          <Switch checked={state?.reverse ?? false}
-                  onChange={(evt: ChangeEvent<HTMLInputElement>) => setState?.(prev => ({
-                    ...prev,
-                    reverse: evt.target.checked
-                  } as AnimationState))}/>
-        </div>
-        <FormHelperText>Reverse animation direction.</FormHelperText>
-      </FormControl>
-      <FormControl>
-        <div className="flex items-center gap-1">
           <FormLabel>Bounce</FormLabel>
           <Switch checked={state?.bounce ?? false}
                   onChange={(evt: ChangeEvent<HTMLInputElement>) => setState?.(prev => ({
