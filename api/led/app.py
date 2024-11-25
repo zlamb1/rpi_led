@@ -66,7 +66,7 @@ class LEDApp:
         return descriptor
 
     def get_default_descriptor(self, name):
-        animation = led.parse.resolve_animation({ "animation_name": name })
+        animation = led.parse.resolve_animation({"animation_name": name}, self.driver.pixels)
         return self.get_animation_descriptor(animation)
 
     def request_animation(self, request):
