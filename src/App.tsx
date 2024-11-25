@@ -80,10 +80,10 @@ export default function App() {
                      show={!!networkError}
                      onCancel={() => setNetworkError('')}
                      onRetry={() => setCounter(prev => prev + 1)}/>
-      <div className="w-full sm:w-[90%] lg:w-[90%] flex flex-col sm:flex-row gap-5">
-        <Card className="p-3 flex flex-col items-center md:items-stretch flex-grow">
+      <div className="w-full sm:w-[90%] lg:w-[90%] flex flex-col sm:flex-row justify-center gap-5">
+        <Card className="p-3 flex flex-col items-center lg:items-stretch">
           <CardHeader title="Animations" titleTypographyProps={{className: 'text-[1.25rem] font-bold'}}/>
-          <CardContent className="pt-0 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 w-fit gap-1">
+          <CardContent className="pt-0 grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 w-fit gap-1">
             <AnimationButtons className="flex-1 w-[175px]"
                               currentAnimation={animationName}
                               onSetAnimation={setAnimation}
