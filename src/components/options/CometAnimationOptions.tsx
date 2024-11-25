@@ -18,8 +18,9 @@ export default function CometAnimationOptions({state, setState}: {
                      onChange={(_evt, value) => setState?.(prev => ({...prev, tail_length: value} as AnimationState))}
                      placeholder="Enter tail length"
         />
+        <FormHelperText>Length of the comet.</FormHelperText>
       </FormControl>
-      <ReverseFormControl state={state} setState={setState} />
+      <ReverseFormControl state={state} setState={setState}/>
       <FormControl>
         <div className="flex items-center gap-1">
           <FormLabel>Bounce</FormLabel>
