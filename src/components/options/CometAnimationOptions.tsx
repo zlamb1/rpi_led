@@ -4,6 +4,7 @@ import {ChangeEvent, Dispatch, Fragment, SetStateAction} from "react";
 import {FormControl} from "@mui/base";
 import {FormHelperText, FormLabel} from "@mui/material";
 import Switch from "../Switch.tsx";
+import {ReverseFormControl} from "./GenericAnimationOptions.tsx";
 
 export default function CometAnimationOptions({state, setState}: {
   state?: CometAnimationState,
@@ -18,17 +19,7 @@ export default function CometAnimationOptions({state, setState}: {
                      placeholder="Enter tail length"
         />
       </FormControl>
-      <FormControl>
-        <div className="flex items-center gap-1">
-          <FormLabel>Reverse</FormLabel>
-          <Switch checked={state?.reverse ?? false}
-                  onChange={(evt: ChangeEvent<HTMLInputElement>) => setState?.(prev => ({
-                    ...prev,
-                    reverse: evt.target.checked
-                  } as AnimationState))}/>
-        </div>
-        <FormHelperText>Reverse animation direction.</FormHelperText>
-      </FormControl>
+      <ReverseFormControl state={state} setState={setState} />
       <FormControl>
         <div className="flex items-center gap-1">
           <FormLabel>Bounce</FormLabel>

@@ -1,7 +1,8 @@
 import {Slider} from "@mui/material";
 import {Dispatch, ReactNode, SetStateAction} from "react";
 import CometAnimationOptions from "./options/CometAnimationOptions.tsx";
-import {AnimationState, CometAnimationState} from "./animation-state.ts";
+import {AnimationState, ChaseAnimationState, CometAnimationState} from "./animation-state.ts";
+import ChaseAnimationOptions from "./options/ChaseAnimationOptions.tsx";
 
 export interface AnimationOptionsProps {
   state?: AnimationState;
@@ -22,6 +23,9 @@ export default function AnimationOptions({
   let optionsComponent: ReactNode;
 
   switch (state?.animation_name?.toLowerCase()) {
+    case 'chase':
+      optionsComponent = ChaseAnimationOptions({state: state as ChaseAnimationState, setState});
+      break;
     case 'comet':
       optionsComponent = CometAnimationOptions({state: state as CometAnimationState, setState});
       break;
