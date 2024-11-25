@@ -1,6 +1,5 @@
 import {AnimatePresence, motion} from 'framer-motion';
-import {ReactNode} from "react";
-import useMeasure from "react-use-measure";
+import {ReactNode, useEffect, useRef, useState} from "react";
 import {twMerge} from "tailwind-merge";
 
 export interface ExpandProps {
@@ -11,7 +10,25 @@ export interface ExpandProps {
 }
 
 export default function Expand({children, className, initial, layout}: ExpandProps) {
-  const [ref, {height}] = useMeasure();
+  const [height, setHeight] = useState<number | 'auto'>('auto')
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (ref.current) {
+      const resizeObserver = new ResizeObserver((entries) => {
+        // We only have one entry, so we can use entries[0].
+        const observedHeight = entries[0].contentRect.height
+        setHeight(observedHeight)
+      })
+
+      resizeObserver.observe(ref.current)
+
+      return () => {
+        // Cleanup the observer when the component is unmounted
+        resizeObserver.disconnect()
+      }
+    }
+  }, [])
 
   return (
     <AnimatePresence initial={initial}>

@@ -4,6 +4,7 @@ import CometAnimationOptions from "./options/CometAnimationOptions.tsx";
 import {AnimationState, ChaseAnimationState, CometAnimationState} from "./animation-state.ts";
 import ChaseAnimationOptions from "./options/ChaseAnimationOptions.tsx";
 import {FormControl} from "@mui/base";
+import Expand from "../Expand.tsx";
 
 export interface AnimationOptionsProps {
   state?: AnimationState;
@@ -49,7 +50,9 @@ export default function AnimationOptions({
         />
         <FormHelperText>The speed in seconds of the animation.</FormHelperText>
       </FormControl>
-      {optionsComponent}
+      <Expand initial={false}>
+        {optionsComponent}
+      </Expand>
     </div>
   );
 }
