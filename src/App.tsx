@@ -56,14 +56,28 @@ export default function App() {
       fetch(`${API_ENDPOINT}/api/animation`, {method: 'GET'})
         .then(res => {
           res.json().then(data => {
-            if (data.animation_name && data.animation_name !== 'null') {
-              setAnimationState(data)
+            if (isAnimationState(data)) {
+              setAnimationState(data as AnimationState);
             }
           }).catch(() => {
           });
         }).catch(() => setNetworkError(defaultErrorMsg));
     }, 250);
   }, [counter]);
+
+  // fetch default descriptor state
+  useEffect(() => {
+    if (state?.animation_name) {
+      fetch(`${API_ENDPOINT}/api/animation/descriptor/${state.animation_name}`, {method: 'GET'})
+        .then(res => {
+          res.json().then(data => {
+            if (isAnimationState(data)) {
+              setAnimationState(data as AnimationState);
+            }
+          });
+        });
+    }
+  }, [state?.animation_name]);
 
   async function setAnimation() {
     try {
