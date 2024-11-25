@@ -1,10 +1,10 @@
 from flask import Flask, request
 from flask_cors import CORS
 
-from led.light_driver import LightDriver
+from led.driver import LEDDriver
 from led.app import LEDApp
 
-pixels = LightDriver(num_pixels = 300)
+pixels = LEDDriver(num_pixels = 300)
 led_app = LEDApp(pixels)
 
 app = Flask(__name__)
