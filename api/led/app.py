@@ -22,7 +22,7 @@ class LEDApp:
         # Release mutex
         self.led_driver.resource_lock.release()
 
-	def get_animation(self):
+    def get_animation(self):
         return self.animation_name
 
 	def request_animation(self, request):
