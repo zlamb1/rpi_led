@@ -20,5 +20,4 @@ def get_animation():
 
 @app.route("/api/animation", methods=['POST'])
 def post_animation():
-    led_app.request_animation(request)
-    return { "status": 200 }
+    return led_app.request_animation(request)

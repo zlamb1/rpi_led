@@ -65,3 +65,4 @@ class LEDApp:
     def request_animation(self, request):
         animation = led.parse.resolve_animation(request, self.driver.pixels)
         self.set_animation(animation)
+        return self.get_animation_descriptor()
