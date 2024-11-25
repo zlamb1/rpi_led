@@ -15,10 +15,26 @@ import BottomAppBar from "./components/BottomAppBar.tsx";
 
 export const API_ENDPOINT = 'http://raspberrypi.local:5000';
 
+function hexFromArray(array: unknown) {
+  if (!Array.isArray(array) || array.length < 3) {
+    throw new Error('Cannot parse hex value without three components.');
+  }
+
+  let str = '#';
+  for (let i = 0; i < 3; i++) {
+    const hex = array[i].toString(16);
+    str += hex.length == 1 ? "0" + hex : hex;
+  }
+
+  return str;
+}
+
 async function api_animation(state?: AnimationState) {
   if (!state) return true;
 
   const formData = new FormData();
+
+  const colorKeys = ['color'];
 
   for (const key of Object.keys(state)) {
     const value = state[key as keyof AnimationState];
@@ -26,6 +42,12 @@ async function api_animation(state?: AnimationState) {
       if (typeof value === 'string') {
         formData.append(key, value);
       } else {
+        // parse RGB array into hex string
+        if (colorKeys.includes(key)) {
+          formData.append(key, hexFromArray(value));
+          continue;
+        }
+
         const valueAsString = value.toString?.();
         if (valueAsString) {
           formData.append(key, valueAsString);

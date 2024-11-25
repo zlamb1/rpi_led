@@ -1,14 +1,11 @@
 export interface AnimationState {
   animation_name: string;
   speed: number;
+  color: string | Array<number>;
 }
 
 export function isAnimationState(state: unknown) {
   return state instanceof Object && "animation_name" in state && "speed" in state;
-}
-
-export interface SingleColorAnimationState extends AnimationState {
-  color: string;
 }
 
 export interface MultipleColorAnimationState extends AnimationState {
@@ -17,10 +14,10 @@ export interface MultipleColorAnimationState extends AnimationState {
   start_color: number;
 }
 
-export type BlinkAnimationState = SingleColorAnimationState;
-export type SolidAnimationState = SingleColorAnimationState;
+export type BlinkAnimationState = AnimationState;
+export type SolidAnimationState = AnimationState;
 
-export interface ChaseAnimationState extends SingleColorAnimationState {
+export interface ChaseAnimationState extends AnimationState {
   /* number of pixels to turn on in a row. */
   size: number;
   /* number of pixels to turn off in a row */
@@ -29,7 +26,7 @@ export interface ChaseAnimationState extends SingleColorAnimationState {
   reverse: boolean;
 }
 
-export interface CometAnimationState extends SingleColorAnimationState {
+export interface CometAnimationState extends AnimationState {
   /* background color */
   bg_color: string;
   /* length of the comet */
@@ -43,7 +40,7 @@ export interface CometAnimationState extends SingleColorAnimationState {
   ring: boolean;
 }
 
-export interface PulseAnimationState extends SingleColorAnimationState {
+export interface PulseAnimationState extends AnimationState {
   /* period to pulse LEDs */
   period: number;
   /* lowest brightness level */
@@ -59,7 +56,7 @@ export interface RainbowAnimationState extends AnimationState {
   step: number;
 }
 
-export interface SparkleAnimationState extends SingleColorAnimationState {
+export interface SparkleAnimationState extends AnimationState {
   /* number of sparkles to generate per animation cycle */
   num_sparkles: number;
 }
