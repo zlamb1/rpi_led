@@ -40,6 +40,7 @@ export default function AnimationButtons({className}: {
         .then(res => {
           res.json().then(data => {
             if (isAnimationState(data)) {
+              console.log(data);
               formatState(data);
               setPossibleState?.(data as AnimationState);
             }

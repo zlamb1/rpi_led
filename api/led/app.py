@@ -1,7 +1,8 @@
 import led.animation_type
 import led.parse
 
-scolor_animations = ["solid", "blink", "comet", "pulse", "sparkle_pulse", "grid_rain"]
+scolor_animations = ["solid", "blink", "pulse", "sparkle_pulse", "grid_rain"]
+
 
 class LEDApp:
     def __init__(self, driver):
@@ -40,8 +41,10 @@ class LEDApp:
         if name in scolor_animations:
             descriptor["color"] = animation.color
 
+        # Comet and Sparkle override _set_color which prevents us from being able to set the color property
+        if name == "comet":
+            descriptor["color"] = animation._computed_color
         if name == "sparkle":
-            # for some reason I cannot discern, Sparkle will not return a correct color using the color property
             descriptor["color"] = animation._sparkle_color
 
         if name == "chase" or name == "rainbow_chase":
