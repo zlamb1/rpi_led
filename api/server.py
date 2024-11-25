@@ -16,7 +16,7 @@ def hello():
 
 @app.route("/api/animation", methods=['GET'])
 def get_animation():
-    return { "animation_type": led_app.get_animation() }
+    return led_app.get_animation_descriptor()
 
 @app.route("/api/animation", methods=['POST'])
 def post_animation():

@@ -21,8 +21,16 @@ class LEDApp:
         # Release mutex
         self.driver.resource_lock.release()
 
-    def get_animation(self):
-        return self.driver.animation_name
+    def get_animation_descriptor(self):
+        if self.driver.animation is None:
+            return {
+                "animation_name": "null"
+            }
+
+        return {
+            "animation_name": self.driver.animation_name,
+            "speed":          self.driver.animation.speed
+        }
 
     def request_animation(self, request):
         animation = led.parse.resolve_animation(request, self.driver.pixels)
