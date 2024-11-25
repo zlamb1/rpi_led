@@ -52,8 +52,8 @@ class LEDApp:
 
         if name == "pulse":
             descriptor["period"] = animation._period
-            descriptor["min_intensity"] = animation.min_intensity
-            descriptor["max_intensity"] = animation.max_intensity
+            descriptor["min_intensity"] = animation._min_intensity
+            descriptor["max_intensity"] = animation._max_intensity
 
         if name == "rainbow":
             descriptor["period"] = animation._period
