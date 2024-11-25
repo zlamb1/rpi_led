@@ -85,17 +85,17 @@ export default function App() {
                      show={!!networkError}
                      onCancel={() => setNetworkError('')}
                      onRetry={() => setCounter(prev => prev + 1)}/>
-      <div className="w-full sm:w-[90%] lg:w-[90%] flex flex-col sm:flex-row justify-center gap-5">
-        <Card className="p-3 w-[50%] flex flex-col items-center lg:items-stretch">
+      <div className="w-full md:w-[90%] lg:w-[90%] flex flex-col sm:flex-row justify-center gap-3 pb-16">
+        <Card className="p-3 w-full sm:w-[50%] flex flex-col items-center lg:items-stretch">
           <CardHeader title="Animations" titleTypographyProps={{className: 'text-[1.25rem] font-bold'}}/>
-          <CardContent className="pt-0 grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 w-fit gap-1">
+          <CardContent className="pt-0 grid grid-cols-2 sm:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 w-fit gap-1">
             <AnimationButtons className="flex-1 w-[175px]"
                               state={state}
                               setState={setAnimationState}
             />
           </CardContent>
         </Card>
-        <Card className="p-3 px-8 w-[50%]">
+        <Card className="p-3 px-8 w-full sm:w-[50%]">
           <CardHeader title={`Speed: ${state?.speed} sec`}
                       titleTypographyProps={{className: 'text-[1.25rem] font-bold'}}/>
           <CardContent className="pt-0">
