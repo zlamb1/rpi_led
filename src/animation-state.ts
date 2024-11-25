@@ -73,12 +73,12 @@ export interface SparkleAnimationState extends AnimationState {
 
 export type RainbowChaseAnimationState = ChaseAnimationState;
 
-export type RainbowCometAnimationState = Omit<CometAnimationState, "color"> & {
+export interface RainbowCometAnimationState extends CometAnimationState {
   /* colorwheel step */
   step: number
-};
+}
 
-export interface RainbowSparkleAnimationState extends Omit<SparkleAnimationState, "color"> {
+export interface RainbowSparkleAnimationState extends SparkleAnimationState {
   /* period to cycle the rainbow in seconds */
   period: number;
   /* colorwheel step */
