@@ -1,4 +1,4 @@
-import {AnimationState, ChaseAnimationState} from "../animation-state.ts";
+import {AnimationState, ChaseAnimationState} from "../../animation-state.ts";
 import {NumberInput} from "../NumberInput.tsx";
 import {Dispatch, Fragment, SetStateAction} from "react";
 import {FormControl} from "@mui/base";

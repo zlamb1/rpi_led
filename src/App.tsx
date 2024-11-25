@@ -10,7 +10,7 @@ import {Box, Card, CardContent, CardHeader} from "@mui/material";
 import NetworkDialog from "./components/NetworkDialog.tsx";
 import AnimationButtons from "./components/AnimationButtons.tsx";
 import AnimationOptions from "./components/AnimationOptions.tsx";
-import {AnimationState, isAnimationState} from "./components/animation-state.ts";
+import {AnimationState, isAnimationState} from "./animation-state.ts";
 import BottomAppBar from "./components/BottomAppBar.tsx";
 
 export const API_ENDPOINT = 'http://raspberrypi.local:5000';

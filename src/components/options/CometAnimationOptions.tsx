@@ -1,4 +1,4 @@
-import {AnimationState, CometAnimationState} from "../animation-state.ts";
+import {AnimationState, CometAnimationState} from "../../animation-state.ts";
 import {NumberInput} from "../NumberInput.tsx";
 import {ChangeEvent, Dispatch, Fragment, SetStateAction} from "react";
 import {FormControl} from "@mui/base";

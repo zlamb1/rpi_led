@@ -1,7 +1,7 @@
 import {Dispatch, ReactNode, SetStateAction} from "react";
 import Button from "@mui/material/Button";
 import {AnimationProps, getAnimationValue, LED_ANIMATIONS} from "../animation-props.ts";
-import {AnimationState, isAnimationState} from "./animation-state.ts";
+import {AnimationState, isAnimationState} from "../animation-state.ts";
 import {API_ENDPOINT} from "../App.tsx";
 
 interface AnimationButtonProps {

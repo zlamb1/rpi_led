@@ -1,7 +1,7 @@
 import {FormHelperText, FormLabel, Slider} from "@mui/material";
 import {Dispatch, ReactNode, SetStateAction} from "react";
 import CometAnimationOptions from "./options/CometAnimationOptions.tsx";
-import {AnimationState, ChaseAnimationState, CometAnimationState} from "./animation-state.ts";
+import {AnimationState, ChaseAnimationState, CometAnimationState} from "../animation-state.ts";
 import ChaseAnimationOptions from "./options/ChaseAnimationOptions.tsx";
 import {FormControl} from "@mui/base";
 import Expand from "../Expand.tsx";

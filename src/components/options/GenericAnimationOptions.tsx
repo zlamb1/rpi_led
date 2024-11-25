@@ -1,4 +1,4 @@
-import {AnimationState} from "../animation-state.ts";
+import {AnimationState} from "../../animation-state.ts";
 import {ChangeEvent, Dispatch, SetStateAction} from "react";
 import {FormControl} from "@mui/base";
 import {FormHelperText, FormLabel} from "@mui/material";
