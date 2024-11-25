@@ -59,7 +59,7 @@ export default function App() {
   async function setAnimation(name: string) {
     try {
       const res: boolean = await api_animation({
-        animationName: name?.toLowerCase?.()?.replaceAll('_', '') ?? 'solid',
+        animationName: name?.toLowerCase?.() ?? 'solid',
         color: '#ffffff',
         speed
       });

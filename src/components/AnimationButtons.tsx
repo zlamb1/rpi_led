@@ -24,10 +24,10 @@ export default function AnimationButtons({className, currentAnimation = '', onSe
     {label: 'Pulse'},
     {label: 'Rainbow'},
     {label: 'Sparkle'},
-    {label: 'Rainbow_Chase', value: 'RainbowChase'},
-    {label: 'Rainbow_Comet', value: 'RainbowComet'},
-    {label: 'Rainbow_Sparkle', value: 'RainbowSparkle'},
-    {label: 'Sparkle_Pulse', value: 'SparklePulse'},
+    {label: 'Rainbow Chase', value: 'Rainbow_Chase'},
+    {label: 'Rainbow Comet', value: 'Rainbow_Comet'},
+    {label: 'Rainbow Sparkle', value: 'Rainbow_Sparkle'},
+    {label: 'Sparkle Pulse', value: 'Sparkle_Pulse'},
     {label: 'Music'},
   ];
 
@@ -35,9 +35,9 @@ export default function AnimationButtons({className, currentAnimation = '', onSe
     return props.value ?? props.label;
   }
 
-  async function _onSetAnimation(anim: string) {
-    setLoadingAnimation(anim);
-    await onSetAnimation?.(anim);
+  async function _onSetAnimation(props: AnimationButtonProps) {
+    setLoadingAnimation(props.label);
+    await onSetAnimation?.(value(props));
     setLoadingAnimation(undefined);
   }
 
@@ -45,10 +45,10 @@ export default function AnimationButtons({className, currentAnimation = '', onSe
     <Button key={value(props)}
             className={twMerge("min-w-[200px]", className)}
             variant={value(props)?.toLowerCase() === currentAnimation?.toLowerCase?.() ? "contained" : "outlined"}
-            onClick={() => _onSetAnimation(value(props))}
+            onClick={() => _onSetAnimation(props)}
             disabled={!!loadingAnimation}
     >
-      {loadingAnimation === value(props) ? <CircularProgress size={20}/> : props.label.replaceAll?.('_', ' ')}
+      {loadingAnimation === props.label ? <CircularProgress size={20}/> : props.label}
     </Button>
   );
 }
