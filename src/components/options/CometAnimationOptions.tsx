@@ -1,10 +1,9 @@
 import {AnimationState, CometAnimationState} from "../../animation-state.ts";
-import {NumberInput} from "../NumberInput.tsx";
 import {ChangeEvent, Dispatch, Fragment, SetStateAction} from "react";
 import {FormControl} from "@mui/base";
 import {FormHelperText, FormLabel} from "@mui/material";
 import Switch from "../Switch.tsx";
-import {ReverseFormControl} from "./GenericAnimationOptions.tsx";
+import {NumericFormControl, ReverseFormControl} from "./GenericAnimationOptions.tsx";
 
 export default function CometAnimationOptions({state, setState}: {
   state?: CometAnimationState,
@@ -12,14 +11,8 @@ export default function CometAnimationOptions({state, setState}: {
 }) {
   return (
     <Fragment>
-      <FormControl>
-        <FormLabel>Tail Length</FormLabel>
-        <NumberInput value={state?.tail_length ?? 0}
-                     onChange={(_evt, value) => setState?.(prev => ({...prev, tail_length: value} as AnimationState))}
-                     placeholder="Enter tail length"
-        />
-        <FormHelperText>Length of the comet.</FormHelperText>
-      </FormControl>
+      <NumericFormControl property="tail_length" label="Tail Length" helperText="The length of the comet." state={state}
+                          setState={setState}/>
       <ReverseFormControl state={state} setState={setState}/>
       <FormControl>
         <div className="flex items-center gap-1">

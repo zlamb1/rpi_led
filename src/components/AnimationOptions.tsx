@@ -1,18 +1,15 @@
 import {FormHelperText, FormLabel, Slider} from "@mui/material";
-import {Dispatch, ReactNode, SetStateAction} from "react";
+import {Dispatch, FunctionComponent, SetStateAction} from "react";
 import CometAnimationOptions from "./options/CometAnimationOptions.tsx";
-import {
-  AnimationState,
-  ChaseAnimationState,
-  CometAnimationState,
-  PulseAnimationState,
-  RainbowAnimationState
-} from "../animation-state.ts";
+import {AnimationState} from "../animation-state.ts";
 import ChaseAnimationOptions from "./options/ChaseAnimationOptions.tsx";
 import {FormControl} from "@mui/base";
 import Expand from "../Expand.tsx";
 import PulseAnimationOptions from "./options/PulseAnimationOptions.tsx";
 import RainbowAnimationOptions from "./options/RainbowAnimationOptions.tsx";
+import SparkleAnimationOptions from "./options/SparkleAnimationOptions.tsx";
+import RainbowCometAnimationOptions from "./options/RainbowCometAnimationOptions.tsx";
+import RainbowSparkleAnimationOptions from "./options/RainbowSparkleAnimationOptions.tsx";
 
 export interface AnimationOptionsProps {
   state?: AnimationState;
@@ -30,21 +27,17 @@ export default function AnimationOptions({
                                            maxSpeed = 5,
                                            speedStep = minSpeed,
                                          }: AnimationOptionsProps) {
-  let optionsComponent: ReactNode;
-
-  switch (state?.animation_name?.toLowerCase()) {
-    case 'chase':
-      optionsComponent = ChaseAnimationOptions({state: state as ChaseAnimationState, setState});
-      break;
-    case 'comet':
-      optionsComponent = CometAnimationOptions({state: state as CometAnimationState, setState});
-      break;
-    case 'pulse':
-      optionsComponent = PulseAnimationOptions({state: state as PulseAnimationState, setState});
-      break;
-    case 'rainbow':
-      optionsComponent = RainbowAnimationOptions({state: state as RainbowAnimationState, setState});
-      break;
+  type OptionComponents = { [key: string]: FunctionComponent };
+  const optionComponents: OptionComponents = {
+    'chase': ChaseAnimationOptions,
+    'comet': CometAnimationOptions,
+    'pulse': PulseAnimationOptions,
+    'rainbow': RainbowAnimationOptions,
+    'sparkle': SparkleAnimationOptions,
+    'rainbow_chase': ChaseAnimationOptions,
+    'rainbow_comet': RainbowCometAnimationOptions,
+    'rainbow_sparkle': RainbowSparkleAnimationOptions,
+    'sparkle_pulse': SparkleAnimationOptions,
   }
 
   return (
@@ -65,7 +58,7 @@ export default function AnimationOptions({
         <FormHelperText>The speed in seconds of the animation.</FormHelperText>
       </FormControl>
       <Expand className="flex flex-col gap-5" initial={false}>
-        {optionsComponent}
+        {optionComponents[(state?.animation_name?.toLowerCase() ?? '') as keyof OptionComponents]?.({state, setState})}
       </Expand>
     </div>
   );
