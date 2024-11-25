@@ -12,6 +12,7 @@ class AnimationType(StrEnum):
 	RAINBOW_COMET = 'rainbow_comet',
 	RAINBOW_SPARKLE = 'rainbow_sparkle',
 	SPARKLE_PULSE = 'sparkle_pulse',
+	GRID_RAIN = "grid_rain",
 	MUSIC = 'music'
 
 def from_class_name(class_name):
@@ -21,7 +22,10 @@ def from_class_name(class_name):
 		if i != 0 and class_name[i].isupper():
 			parsed_class_name += '_'
 		parsed_class_name += class_name[i].lower()
-	
+
+	if parsed_class_name == "rain":
+		parsed_class_name = "grid_rain"
+
 	return AnimationType(parsed_class_name)
 
 def from_class(c):

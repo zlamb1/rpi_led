@@ -1,6 +1,8 @@
 import led.animation_type
 import led.parse
+from Cryptodome.SelfTest.Hash.test_cSHAKE import descr
 
+scolor_animations = ["solid", "blink", "comet", "pulse", "sparkle_pulse", "grid_rain"]
 
 class LEDApp:
     def __init__(self, driver):
@@ -36,7 +38,7 @@ class LEDApp:
         descriptor["animation_name"] = name
         descriptor["speed"] = animation.speed
 
-        if name == "solid" or name == "blink" or name == "comet" or name == "pulse" or name == "sparkle_pulse":
+        if name in scolor_animations:
             descriptor["color"] = animation.color
 
         if name == "sparkle":
@@ -54,10 +56,14 @@ class LEDApp:
             descriptor["bounce"] = animation.bounce
             descriptor["ring"] = animation.ring
 
-        if name == "pulse":
+        if name == "pulse" or name == "sparkle_pulse":
             descriptor["period"] = animation._period
+            descriptor["breath"] = animation.breath
             descriptor["min_intensity"] = animation.min_intensity
             descriptor["max_intensity"] = animation.max_intensity
+
+        if name == "sparkle" or name == "rainbow_sparkle":
+            descriptor["num_sparkles"] = animation._num_sparkles
 
         if name == "rainbow":
             descriptor["period"] = animation._period
@@ -65,6 +71,16 @@ class LEDApp:
 
         if name == "rainbow_comet":
             descriptor["colorwheel_offset"] = animation._colorwheel_offset
+
+        if name == "rainbow_sparkle":
+            descriptor["period"] = animation._period
+            descriptor["step"] = animation._step
+            descriptor["background_brightness"] = animation._background_brightness
+
+        if name == "grid_rain":
+            descriptor["count"] = animation._count
+            descriptor["length"] = animation._length
+            descriptor["bg_color"] = animation._background
 
         return descriptor
 

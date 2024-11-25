@@ -2,6 +2,7 @@ import adafruit_led_animation.color as Color
 from adafruit_led_animation.animation.blink import Blink
 from adafruit_led_animation.animation.chase import Chase
 from adafruit_led_animation.animation.comet import Comet
+from adafruit_led_animation.animation.grid_rain import Rain
 from adafruit_led_animation.animation.pulse import Pulse
 from adafruit_led_animation.animation.rainbow import Rainbow
 from adafruit_led_animation.animation.rainbowchase import RainbowChase
@@ -56,8 +57,8 @@ def resolve_animation(data, pixels):
     background_brightness = parse_float(data['background_brightness']) if 'background_brightness' in data else 0.2
     min_intensity = clamp(parse_float(data['min_intensity']), 0, 1) if 'min_intensity' in data else 0
     max_intensity = clamp(parse_float(data['max_intensity']), 0, 1) if 'max_intensity' in data else 1
-    color = parse_color(data['color']) if 'color' in data else (255, 255, 255)
-    bg_color = parse_color(data['bg_color']) if 'bg_color' in data else (0, 0, 0)
+    color = parse_color(data['color']) if 'color' in data else Color.WHITE
+    bg_color = parse_color(data['bg_color']) if 'bg_color' in data else Color.BLACK
     tail_length = parse_int(data['tail_length']) if 'tail_length' in data else None
     size = parse_int(data['size']) if 'size' in data else 2
     spacing = parse_int(data['spacing']) if 'spacing' in data else 3
@@ -68,6 +69,8 @@ def resolve_animation(data, pixels):
     reverse = parse_bool(data['reverse']) if 'reverse' in data else False
     bounce = parse_bool(data['bounce']) if 'bounce' in data else False
     ring = parse_bool(data['ring']) if 'ring' in data else False
+    count = parse_int(data['count']) if 'count' in data else 1
+    length = parse_int(data['length']) if 'length' in data else 3
 
     if name == 'blink':
         return Blink(pixels, speed, color)
@@ -112,6 +115,8 @@ def resolve_animation(data, pixels):
     if name == 'sparkle_pulse':
         return SparklePulse(pixels, speed, color, period=period,
                             max_intensity=max_intensity, min_intensity=min_intensity)
+    if name == 'grid_rain':
+        return Rain(pixels, speed, color, count=count, length=length, background=bg_color)
 
     # return default animation
     return Solid(pixels, Color.WHITE)
