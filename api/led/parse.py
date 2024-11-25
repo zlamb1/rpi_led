@@ -52,7 +52,7 @@ def resolve_animation(request, pixels):
 	min_intensity = clamp(parse_float(form['min_intensity']), 0, 1) if 'min_intensity' in form else 0
 	max_intensity = clamp(parse_float(form['max_intensity']), 0, 1) if 'max_intensity' in form else 1
 	color = parse_color(form['color']) if 'color' in form else (255, 255, 255)
-	bg_color = parse_color(form['background_color']) if 'background_color' in form else (0, 0, 0)
+	bg_color = parse_color(form['bg_color']) if 'bg_color' in form else (0, 0, 0)
 	tail_length = parse_int(form[tail_length]) if 'tail_length' in form else None
 	size = parse_int(form['size']) if 'size' in form else 2
 	spacing = parse_int(form['spacing']) if 'spacing' in form else 3
@@ -73,7 +73,7 @@ def resolve_animation(request, pixels):
 	if name == 'comet':
 		if tail_length is None:
 			tail_length = 0
-		return Comet(pixels, speed, color, background_color=background_color, 
+		return Comet(pixels, speed, color, background_color=bg_color,
 			tail_length=tail_length, reverse=reverse, bounce=bounce, ring=ring)
 	if name == 'pulse':
 		return Pulse(pixels, speed, color, period=period)
