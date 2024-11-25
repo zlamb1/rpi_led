@@ -88,3 +88,9 @@ export interface RainbowSparkleAnimationState extends Omit<SparkleAnimationState
 }
 
 export type SparklePulseAnimationState = PulseAnimationState;
+
+export interface GridRainAnimationState extends AnimationState {
+  count: number;
+  length: number;
+  bg_color: string;
+}

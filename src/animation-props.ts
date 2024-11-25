@@ -20,5 +20,6 @@ export const LED_ANIMATIONS: AnimationProps[] = [
   {label: 'Rainbow Comet', value: 'Rainbow_Comet'},
   {label: 'Rainbow Sparkle', value: 'Rainbow_Sparkle'},
   {label: 'Sparkle Pulse', value: 'Sparkle_Pulse', color: true},
+  {label: 'Grid Rain', value: 'Grid_Rain', color: true},
   {label: 'Music'},
 ];

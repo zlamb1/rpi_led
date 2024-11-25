@@ -1,6 +1,5 @@
 import led.animation_type
 import led.parse
-from Cryptodome.SelfTest.Hash.test_cSHAKE import descr
 
 scolor_animations = ["solid", "blink", "comet", "pulse", "sparkle_pulse", "grid_rain"]
 

@@ -10,6 +10,7 @@ import RainbowAnimationOptions from "./options/RainbowAnimationOptions.tsx";
 import SparkleAnimationOptions from "./options/SparkleAnimationOptions.tsx";
 import RainbowCometAnimationOptions from "./options/RainbowCometAnimationOptions.tsx";
 import RainbowSparkleAnimationOptions from "./options/RainbowSparkleAnimationOptions.tsx";
+import GridRainAnimationOptions from "./options/GridRainAnimationOptions.tsx";
 
 export interface AnimationOptionsProps {
   minSpeed?: number;
@@ -36,6 +37,7 @@ export default function AnimationOptions({
     'rainbow_comet': RainbowCometAnimationOptions,
     'rainbow_sparkle': RainbowSparkleAnimationOptions,
     'sparkle_pulse': SparkleAnimationOptions,
+    'grid_rain': GridRainAnimationOptions,
   }
 
   return (
