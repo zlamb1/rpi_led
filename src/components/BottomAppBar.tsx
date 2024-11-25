@@ -1,5 +1,5 @@
 import {AppBar, Fab, styled, Toolbar} from "@mui/material";
-import SendIcon from '@mui/icons-material/Send';
+import BrushIcon from '@mui/icons-material/Brush';
 
 const StyledFab = styled(Fab)({
   position: 'absolute',
@@ -15,7 +15,7 @@ export default function BottomAppBar({onSend}: { onSend?: () => void }) {
     <AppBar position="fixed" color="primary" sx={{top: 'auto', bottom: 0}}>
       <Toolbar>
         <StyledFab color="secondary" aria-label="add" onClick={onSend}>
-          <SendIcon/>
+          <BrushIcon/>
         </StyledFab>
       </Toolbar>
     </AppBar>
