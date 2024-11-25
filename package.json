@@ -16,8 +16,10 @@
     "@fontsource/roboto": "^5.1.0",
     "@mui/icons-material": "^6.1.8",
     "@mui/material": "^6.1.8",
+    "motion": "^11.11.17",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
+    "react-use-measure": "^2.1.1",
     "tailwind-merge": "^2.5.4"
   },
   "devDependencies": {
