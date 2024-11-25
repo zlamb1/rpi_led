@@ -1,4 +1,4 @@
-import adafruit_led_animation.color as Color
+from adafruit_led_animation.color import WHITE, BLACK
 from adafruit_led_animation.animation.blink import Blink
 from adafruit_led_animation.animation.chase import Chase
 from adafruit_led_animation.animation.comet import Comet
@@ -57,8 +57,8 @@ def resolve_animation(data, pixels):
     background_brightness = parse_float(data['background_brightness']) if 'background_brightness' in data else 0.2
     min_intensity = clamp(parse_float(data['min_intensity']), 0, 1) if 'min_intensity' in data else 0
     max_intensity = clamp(parse_float(data['max_intensity']), 0, 1) if 'max_intensity' in data else 1
-    color = parse_color(data['color']) if 'color' in data else Color.WHITE
-    bg_color = parse_color(data['bg_color']) if 'bg_color' in data else Color.BLACK
+    color = parse_color(data['color']) if 'color' in data else WHITE
+    bg_color = parse_color(data['bg_color']) if 'bg_color' in data else BLACK
     tail_length = parse_int(data['tail_length']) if 'tail_length' in data else None
     size = parse_int(data['size']) if 'size' in data else 2
     spacing = parse_int(data['spacing']) if 'spacing' in data else 3

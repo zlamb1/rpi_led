@@ -18,8 +18,8 @@ import {
 } from "./animation-state.ts";
 import BottomAppBar from "./components/BottomAppBar.tsx";
 import {AnimationProps, getAnimationValue, LED_ANIMATIONS} from "./animation-props.ts";
-import {HexColorPicker} from "react-colorful";
 import {API_ENDPOINT, formatState} from "./api-helper.ts";
+import {HexColorPicker} from "react-colorful";
 
 async function api_animation(state?: AnimationState) {
   if (!state) return true;
@@ -66,6 +66,7 @@ export default function App() {
             if (isAnimationState(data)) {
               formatState(data);
               setAnimationState(data as AnimationState);
+              setPossibleState(data as AnimationState);
             }
           }).catch(() => {
           });
@@ -79,6 +80,7 @@ export default function App() {
       if (isAnimationState(newState)) {
         formatState(newState);
         setAnimationState(newState as AnimationState);
+        setPossibleState(newState as AnimationState);
       } else {
         setNetworkError('An internal server error occurred.');
       }
@@ -103,7 +105,7 @@ export default function App() {
             />
           </CardContent>
         </Card>
-      )
+      );
     }
   }
 
