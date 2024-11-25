@@ -13,7 +13,7 @@ import AnimationOptions from "./components/AnimationOptions.tsx";
 import {AnimationState, isAnimationState} from "./components/animation-state.ts";
 import Button from "@mui/material/Button";
 
-const API_ENDPOINT = 'http://raspberrypi.local:5000';
+export const API_ENDPOINT = 'http://raspberrypi.local:5000';
 
 async function api_animation(state?: AnimationState) {
   if (!state) return true;
@@ -64,20 +64,6 @@ export default function App() {
         }).catch(() => setNetworkError(defaultErrorMsg));
     }, 250);
   }, [counter]);
-
-  // fetch default descriptor state
-  useEffect(() => {
-    if (state?.animation_name) {
-      fetch(`${API_ENDPOINT}/api/animation/descriptor/${state.animation_name}`, {method: 'GET'})
-        .then(res => {
-          res.json().then(data => {
-            if (isAnimationState(data)) {
-              setAnimationState(data as AnimationState);
-            }
-          });
-        });
-    }
-  }, [state?.animation_name]);
 
   async function setAnimation() {
     try {

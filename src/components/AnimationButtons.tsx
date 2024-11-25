@@ -1,8 +1,9 @@
 import {Dispatch, ReactNode, SetStateAction} from "react";
 import Button from "@mui/material/Button";
 import {twMerge} from "tailwind-merge";
-import {AnimationProps, LED_ANIMATIONS} from "../animation-props.ts";
-import {AnimationState} from "./animation-state.ts";
+import {AnimationProps, getAnimationValue, LED_ANIMATIONS} from "../animation-props.ts";
+import {AnimationState, isAnimationState} from "./animation-state.ts";
+import {API_ENDPOINT} from "../App.tsx";
 
 interface AnimationButtonProps {
   label: string;
@@ -20,19 +21,27 @@ export default function AnimationButtons({className, state, setState}: {
     value: props?.value
   }));
 
-  function value(props: AnimationButtonProps) {
-    return props.value ?? props.label;
-  }
-
-  async function _onSetAnimation(props: AnimationButtonProps) {
-    setState?.(prev => ({...prev, animation_name: value(props)} as AnimationState));
+  async function onSetAnimation(props: AnimationButtonProps) {
+    const name = getAnimationValue(props);
+    setState?.(prev => ({...prev, animation_name: name} as AnimationState));
+    // fetch default descriptor state
+    if (name && setState) {
+      fetch(`${API_ENDPOINT}/api/animation/descriptor/${name}`, {method: 'GET'})
+        .then(res => {
+          res.json().then(data => {
+            if (isAnimationState(data)) {
+              setState(data as AnimationState);
+            }
+          });
+        });
+    }
   }
 
   return animations.map(props =>
-    <Button key={value(props)}
+    <Button key={getAnimationValue(props)}
             className={twMerge("min-w-[200px]", className)}
-            variant={value(props)?.toLowerCase() === state?.animation_name?.toLowerCase?.() ? "contained" : "outlined"}
-            onClick={() => _onSetAnimation(props)}
+            variant={getAnimationValue(props)?.toLowerCase() === state?.animation_name?.toLowerCase?.() ? "contained" : "outlined"}
+            onClick={() => onSetAnimation(props)}
     >
       {props.label}
     </Button>
