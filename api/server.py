@@ -4,7 +4,7 @@ from flask_cors import CORS
 from led.driver import LEDDriver
 from led.app import LEDApp
 
-pixels = LEDDriver(num_pixels = 300)
+pixels = LEDDriver(num_pixels = 200)
 led_app = LEDApp(pixels)
 
 app = Flask(__name__)

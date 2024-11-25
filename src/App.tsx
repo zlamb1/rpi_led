@@ -36,7 +36,7 @@ const defaultErrorMsg = 'A network error occurred while attempting to connect to
 
 export default function App() {
   const [animationName, setAnimationName] = useState<string | undefined>();
-  const [speed, setSpeed] = useState(0.25);
+  const [speed, setSpeed] = useState<number>(0.25);
   const [networkError, setNetworkError] = useState<string>('');
   const [counter, setCounter] = useState(1);
 
@@ -49,6 +49,7 @@ export default function App() {
           res.json().then(data => {
             if (data.animation_name) {
               setAnimationName(data.animation_name);
+              setSpeed(parseFloat(data.speed));
             }
           }).catch(() => {
           });
