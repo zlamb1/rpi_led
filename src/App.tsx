@@ -71,6 +71,7 @@ export default function App() {
     try {
       const newState: unknown = await api_animation(state);
       if (isAnimationState(newState)) {
+        formatState(newState);
         setAnimationState(newState as AnimationState);
       } else {
         setNetworkError('An internal server error occurred.');
