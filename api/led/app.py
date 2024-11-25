@@ -2,10 +2,10 @@ import led.parse
 import led.animation_type
 
 class LEDApp:
-	def __init__(self, led_driver):
-		self.led_driver = led_driver
-		self.animation = None
-		self.animation_name = None
+    def __init__(self, led_driver):
+        self.led_driver = led_driver
+        self.animation = None
+        self.animation_name = None
 
     def set_animation(self, animation):
         # Set class metadata
@@ -26,5 +26,5 @@ class LEDApp:
         return self.animation_name
 
 	def request_animation(self, request):
-		animation = led.parse.resolve_animation(request, self.led_driver.pixels)
-		self.set_animation(animation)
+        animation = led.parse.resolve_animation(request, self.led_driver.pixels)
+        self.set_animation(animation)
