@@ -43,6 +43,7 @@ class LEDApp:
             descriptor["reverse"] = animation.reverse
 
         if name == "comet" or name == "rainbow_comet":
+            descriptor["tail_length"] = animation._tail_length
             descriptor["reverse"] = animation.reverse
             descriptor["bounce"] = animation.bounce
             descriptor["ring"] = animation.ring
