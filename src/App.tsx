@@ -88,7 +88,9 @@ export default function App() {
     }
   }
 
-  const animationProps: AnimationProps | undefined = LED_ANIMATIONS.find(props => getAnimationValue(props)?.toLowerCase() === state?.animation_name?.toLowerCase());
+  const animationProps: AnimationProps | undefined = LED_ANIMATIONS.find(
+    props => getAnimationValue(props)?.toLowerCase() === possibleState?.animation_name?.toLowerCase()
+  );
 
   function renderColorPicker() {
     if (animationProps?.color) {
@@ -125,12 +127,10 @@ export default function App() {
                 <CardHeader title={`Animation Options`}
                             titleTypographyProps={{className: 'text-[1.25rem] font-bold'}}/>
                 <CardContent className="pt-0">
-                  <AnimationOptions state={state}
-                                    setState={setAnimationState}
-                                    onChangeSpeed={(speed: number) => setAnimationState(prev => ({
-                                      ...prev,
-                                      speed
-                                    } as AnimationState))}/>
+                  <AnimationOptions onChangeSpeed={(speed: number) => setAnimationState(prev => ({
+                    ...prev,
+                    speed
+                  } as AnimationState))}/>
                 </CardContent>
               </Card>
             </div>
