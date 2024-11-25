@@ -3,6 +3,10 @@ export interface AnimationState {
   speed: number;
 }
 
+export function isAnimationState(state: unknown) {
+  return state instanceof Object && "animation_name" in state && "speed" in state;
+}
+
 export interface SingleColorAnimationState extends AnimationState {
   color: string;
 }

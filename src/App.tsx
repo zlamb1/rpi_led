@@ -10,7 +10,7 @@ import {Card, CardContent, CardHeader} from "@mui/material";
 import NetworkDialog from "./components/NetworkDialog.tsx";
 import AnimationButtons from "./components/AnimationButtons.tsx";
 import AnimationOptions from "./components/AnimationOptions.tsx";
-import {AnimationState} from "./components/animation-state.ts";
+import {AnimationState, isAnimationState} from "./components/animation-state.ts";
 import Button from "@mui/material/Button";
 
 const API_ENDPOINT = 'http://raspberrypi.local:5000';
@@ -39,7 +39,7 @@ async function api_animation(state?: AnimationState) {
     method: 'POST'
   });
 
-  return res.status === 200;
+  return res.json();
 }
 
 const defaultErrorMsg = 'A network error occurred while attempting to connect to the remote device.';
@@ -67,8 +67,10 @@ export default function App() {
 
   async function setAnimation() {
     try {
-      const res: boolean = await api_animation(state);
-      if (!res) {
+      const newState: unknown = await api_animation(state);
+      if (isAnimationState(newState)) {
+        setAnimationState(newState as AnimationState);
+      } else {
         setNetworkError('An internal server error occurred.');
       }
     } catch (err) {
