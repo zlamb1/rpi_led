@@ -19,7 +19,7 @@ export default function Expand({children, className, initial, layout}: ExpandPro
         // We only have one entry, so we can use entries[0].
         const observedHeight = entries[0].contentRect.height
         setHeight(observedHeight)
-      })
+      });
 
       resizeObserver.observe(ref.current)
 
