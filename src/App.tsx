@@ -20,6 +20,8 @@ import BottomAppBar from "./components/BottomAppBar.tsx";
 import {AnimationProps, getAnimationValue, LED_ANIMATIONS} from "./animation-props.ts";
 import {API_ENDPOINT, formatState} from "./api-helper.ts";
 import {HexColorPicker} from "react-colorful";
+import usePrevious from "./usePrevious.ts";
+import * as _ from "lodash";
 
 async function api_animation(state?: AnimationState) {
   if (!state) return true;
@@ -56,6 +58,8 @@ export default function App() {
   const [networkError, setNetworkError] = useState<string>('');
   const [counter, setCounter] = useState(1);
 
+  const prevState = usePrevious(state);
+
   // fetch active animation on load
   useEffect(() => {
     setNetworkError('');
@@ -66,7 +70,6 @@ export default function App() {
             if (isAnimationState(data)) {
               formatState(data);
               setAnimationState(data as AnimationState);
-              setPossibleState(data as AnimationState);
             }
           }).catch(() => {
           });
@@ -74,13 +77,19 @@ export default function App() {
     }, 250);
   }, [counter]);
 
+  useEffect(() => {
+    // if we don't have any pending changes then update possible state to match new state
+    if (_.isEqual(prevState, possibleState)) {
+      setPossibleState(state);
+    }
+  }, [prevState, state, possibleState]);
+
   async function setAnimation() {
     try {
       const newState: unknown = await api_animation(possibleState);
       if (isAnimationState(newState)) {
         formatState(newState);
         setAnimationState(newState as AnimationState);
-        setPossibleState(newState as AnimationState);
       } else {
         setNetworkError('An internal server error occurred.');
       }
