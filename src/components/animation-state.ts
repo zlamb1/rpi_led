@@ -37,6 +37,7 @@ export interface CometAnimationState extends SingleColorAnimationState {
   /* reverse direction */
   reverse: boolean;
   /* comet will bounce back and forth */
+  /* note: bounce and ring are mutually exclusive */
   bounce: boolean;
   /* ring mode */
   ring: boolean;

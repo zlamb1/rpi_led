@@ -35,7 +35,8 @@ export default function CometAnimationOptions({state, setState}: {
           <Switch checked={state?.bounce ?? false}
                   onChange={(evt: ChangeEvent<HTMLInputElement>) => setState?.(prev => ({
                     ...prev,
-                    bounce: evt.target.checked
+                    bounce: evt.target.checked,
+                    ring: false
                   } as AnimationState))}/>
         </div>
         <FormHelperText>Comet will bounce back and forth.</FormHelperText>
@@ -46,6 +47,7 @@ export default function CometAnimationOptions({state, setState}: {
           <Switch checked={state?.ring ?? false}
                   onChange={(evt: ChangeEvent<HTMLInputElement>) => setState?.(prev => ({
                     ...prev,
+                    bounce: false,
                     ring: evt.target.checked
                   } as AnimationState))}/>
         </div>
