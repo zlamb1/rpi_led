@@ -22,15 +22,45 @@ class LEDApp:
         self.driver.resource_lock.release()
 
     def get_animation_descriptor(self):
-        if self.driver.animation is None:
-            return {
-                "animation_name": "null"
-            }
+        descriptor = {}
+        animation = self.driver.animation
 
-        return {
-            "animation_name": self.driver.animation_name,
-            "speed":          self.driver.animation.speed
-        }
+        if animation is None:
+            descriptor["animation_name"] = "null"
+            descriptor["speed"] = 0
+            return descriptor
+
+        name = self.driver.animation_name
+        descriptor["animation_name"] = name
+        descriptor["speed"] = animation.speed
+
+        if name == "solid" or name == "blink" or name == "comet" or name == "pulse" or name == "sparkle" or name == "sparkle_pulse":
+            descriptor["color"] = animation.color
+
+        if name == "chase" or name == "rainbow_chase":
+            descriptor["size"] = animation._size
+            descriptor["spacing"] = animation._spacing
+            descriptor["reverse"] = animation.reverse
+
+        if name == "comet" or name == "rainbow_comet":
+            descriptor["reverse"] = animation.reverse
+            descriptor["bounce"] = animation.bounce
+            descriptor["ring"] = animation.ring
+
+        if name == "pulse":
+            descriptor["period"] = animation._period
+            descriptor["breath"] = animation.breath
+            descriptor["min_intensity"] = animation.min_intensity
+            descriptor["max_intensity"] = animation.max_intensity
+
+        if name == "rainbow":
+            descriptor["period"] = animation._period
+            descriptor["step"] = animation._step
+
+        if name == "rainbow_comet":
+            descriptor["colorwheel_offset"] = animation._colorwheel_offset
+
+        return descriptor
 
     def request_animation(self, request):
         animation = led.parse.resolve_animation(request, self.driver.pixels)
