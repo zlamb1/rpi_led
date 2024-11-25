@@ -1,6 +1,5 @@
 import led.animation_type
 import led.parse
-from Cryptodome.SelfTest.Hash.test_cSHAKE import descr
 
 
 class LEDApp:
