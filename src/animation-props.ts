@@ -3,6 +3,10 @@ export interface AnimationProps {
   value?: string;
 }
 
+export function getAnimationValue(props: AnimationProps) {
+  return props.value ?? props.label;
+}
+
 export const LED_ANIMATIONS: AnimationProps[] = [
   {label: 'Solid'},
   {label: 'Blink'},

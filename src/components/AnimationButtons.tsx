@@ -13,7 +13,7 @@ interface AnimationButtonProps {
 export default function AnimationButtons({className, state, setState}: {
   className?: string,
   state?: AnimationState,
-  setState?: Dispatch<SetStateAction<AnimationStat | undefined>>,
+  setState?: Dispatch<SetStateAction<AnimationState | undefined>>,
 }) {
   const animations: AnimationButtonProps[] = LED_ANIMATIONS.map((props: AnimationProps) => ({
     label: props.label,
@@ -25,7 +25,7 @@ export default function AnimationButtons({className, state, setState}: {
   }
 
   async function _onSetAnimation(props: AnimationButtonProps) {
-    setState?.(prev => ({...prev, animation_name: value(props)}));
+    setState?.(prev => ({...prev, animation_name: value(props)} as AnimationState));
   }
 
   return animations.map(props =>

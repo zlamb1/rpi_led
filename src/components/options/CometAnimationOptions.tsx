@@ -5,48 +5,48 @@ import {FormControl, Switch} from "@mui/base";
 import {FormHelperText, FormLabel} from "@mui/material";
 
 export default function CometAnimationOptions({state, setState}: {
-  state: CometAnimationState,
-  setState: Dispatch<SetStateAction<AnimationState>>
+  state?: CometAnimationState,
+  setState?: Dispatch<SetStateAction<AnimationState | undefined>>
 }) {
   return (
     <Fragment>
       <FormControl>
         <FormLabel>Tail Length</FormLabel>
         <NumberInput value={state?.tail_length}
-                     onChange={(_evt, value) => setState(prev => ({...prev, tail_length: value}))}
+                     onChange={(_evt, value) => setState?.(prev => ({...prev, tail_length: value} as AnimationState))}
                      placeholder="Enter tail length"
         />
       </FormControl>
       <FormControl>
         <FormLabel>Reverse</FormLabel>
-        <Switch checked={state?.reverse} onChange={(evt: ChangeEvent<HTMLInputElement>) => setState(prev => ({
+        <Switch checked={state?.reverse} onChange={(evt: ChangeEvent<HTMLInputElement>) => setState?.(prev => ({
           ...prev,
           reverse: evt.target.checked
-        }))}/>
+        } as AnimationState))}/>
         <FormHelperText>Reverse animation direction.</FormHelperText>
       </FormControl>
       <FormControl>
         <FormLabel>Reverse</FormLabel>
-        <Switch checked={state?.reverse} onChange={(evt: ChangeEvent<HTMLInputElement>) => setState(prev => ({
+        <Switch checked={state?.reverse} onChange={(evt: ChangeEvent<HTMLInputElement>) => setState?.(prev => ({
           ...prev,
           reverse: evt.target.checked
-        }))}/>
+        } as AnimationState))}/>
         <FormHelperText>Reverse animation direction.</FormHelperText>
       </FormControl>
       <FormControl>
         <FormLabel>Bounce</FormLabel>
-        <Switch checked={state?.bounce} onChange={(evt: ChangeEvent<HTMLInputElement>) => setState(prev => ({
+        <Switch checked={state?.bounce} onChange={(evt: ChangeEvent<HTMLInputElement>) => setState?.(prev => ({
           ...prev,
           bounce: evt.target.checked
-        }))}/>
+        } as AnimationState))}/>
         <FormHelperText>Comet will bounce back and forth.</FormHelperText>
       </FormControl>
       <FormControl>
         <FormLabel>Ring</FormLabel>
-        <Switch checked={state?.ring} onChange={(evt: ChangeEvent<HTMLInputElement>) => setState(prev => ({
+        <Switch checked={state?.ring} onChange={(evt: ChangeEvent<HTMLInputElement>) => setState?.(prev => ({
           ...prev,
           bounce: evt.target.checked
-        }))}/>
+        } as AnimationState))}/>
         <FormHelperText>Comet will use ring mode.</FormHelperText>
       </FormControl>
     </Fragment>

@@ -97,7 +97,8 @@ export default function App() {
           <CardHeader title={`Speed: ${state?.speed} sec`}
                       titleTypographyProps={{className: 'text-[1.25rem] font-bold'}}/>
           <CardContent className="pt-0">
-            <AnimationOptions speed={state?.speed}
+            <AnimationOptions state={state}
+                              setState={setAnimationState}
                               onChangeSpeed={(speed: number) => setAnimationState(prev => ({
                                 ...prev,
                                 speed
