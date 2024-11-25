@@ -75,7 +75,7 @@ export default function App() {
 
   async function setAnimation() {
     try {
-      const newState: unknown = await api_animation(state);
+      const newState: unknown = await api_animation(possibleState);
       if (isAnimationState(newState)) {
         formatState(newState);
         setAnimationState(newState as AnimationState);
