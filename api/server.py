@@ -18,6 +18,10 @@ def hello():
 def get_animation():
     return led_app.get_animation_descriptor()
 
+@app.route("/api/animation/descriptor/<name>", methods=['GET'])
+def get_default_descriptor(name):
+    return led_app.get_default_descriptor(name)
+
 @app.route("/api/animation", methods=['POST'])
 def post_animation():
     return led_app.request_animation(request)

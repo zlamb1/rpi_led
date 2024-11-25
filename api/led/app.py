@@ -1,4 +1,6 @@
+import led.animation_type
 import led.parse
+
 
 class LEDApp:
     def __init__(self, driver):
@@ -21,16 +23,16 @@ class LEDApp:
         # Release mutex
         self.driver.resource_lock.release()
 
-    def get_animation_descriptor(self):
+    def get_animation_descriptor(self, animation=None):
         descriptor = {}
-        animation = self.driver.animation
+        animation = animation or self.driver.animation
 
         if animation is None:
             descriptor["animation_name"] = "null"
             descriptor["speed"] = 0
             return descriptor
 
-        name = self.driver.animation_name
+        name = led.animation_type.from_instance(animation)
         descriptor["animation_name"] = name
         descriptor["speed"] = animation.speed
 
@@ -63,7 +65,11 @@ class LEDApp:
 
         return descriptor
 
+    def get_default_descriptor(self, name):
+        animation = led.parse.resolve_animation({ "animation_name": name })
+        return self.get_animation_descriptor(animation)
+
     def request_animation(self, request):
-        animation = led.parse.resolve_animation(request, self.driver.pixels)
+        animation = led.parse.resolve_animation(request.form, self.driver.pixels)
         self.set_animation(animation)
         return self.get_animation_descriptor()
