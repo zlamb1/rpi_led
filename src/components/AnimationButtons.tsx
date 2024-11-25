@@ -1,8 +1,8 @@
-import {ReactNode, useState} from "react";
+import {Dispatch, ReactNode, SetStateAction} from "react";
 import Button from "@mui/material/Button";
 import {twMerge} from "tailwind-merge";
-import {CircularProgress} from "@mui/material";
 import {AnimationProps, LED_ANIMATIONS} from "../animation-props.ts";
+import {AnimationState} from "./animation-state.ts";
 
 interface AnimationButtonProps {
   label: string;
@@ -10,13 +10,11 @@ interface AnimationButtonProps {
   icon?: ReactNode;
 }
 
-export default function AnimationButtons({className, currentAnimation = '', onSetAnimation}: {
-  className?: string;
-  currentAnimation?: string,
-  onSetAnimation?: (anim: string) => Promise<void>
+export default function AnimationButtons({className, state, setState}: {
+  className?: string,
+  state?: AnimationState,
+  setState?: Dispatch<SetStateAction<AnimationStat | undefined>>,
 }) {
-  const [loadingAnimation, setLoadingAnimation] = useState<string | undefined>();
-
   const animations: AnimationButtonProps[] = LED_ANIMATIONS.map((props: AnimationProps) => ({
     label: props.label,
     value: props?.value
@@ -27,19 +25,16 @@ export default function AnimationButtons({className, currentAnimation = '', onSe
   }
 
   async function _onSetAnimation(props: AnimationButtonProps) {
-    setLoadingAnimation(props.label);
-    await onSetAnimation?.(value(props));
-    setLoadingAnimation(undefined);
+    setState?.(prev => ({...prev, animation_name: value(props)}));
   }
 
   return animations.map(props =>
     <Button key={value(props)}
             className={twMerge("min-w-[200px]", className)}
-            variant={value(props)?.toLowerCase() === currentAnimation?.toLowerCase?.() ? "contained" : "outlined"}
+            variant={value(props)?.toLowerCase() === state?.animation_name?.toLowerCase?.() ? "contained" : "outlined"}
             onClick={() => _onSetAnimation(props)}
-            disabled={!!loadingAnimation}
     >
-      {loadingAnimation === props.label ? <CircularProgress size={20}/> : props.label}
+      {props.label}
     </Button>
   );
 }

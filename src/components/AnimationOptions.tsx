@@ -5,7 +5,7 @@ export interface AnimationOptionsProps {
   minSpeed?: number;
   maxSpeed?: number;
   speedStep?: number;
-  speed: number;
+  speed?: number;
   onChangeSpeed?: Dispatch<SetStateAction<number>> | ((speed: number) => void);
 }
 
