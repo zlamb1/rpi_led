@@ -53,13 +53,13 @@ def resolve_animation(request, pixels):
 	max_intensity = clamp(parse_float(form['max_intensity']), 0, 1) if 'max_intensity' in form else 1
 	color = parse_color(form['color']) if 'color' in form else (255, 255, 255)
 	bg_color = parse_color(form['bg_color']) if 'bg_color' in form else (0, 0, 0)
-	tail_length = parse_int(form[tail_length]) if 'tail_length' in form else None
+	tail_length = parse_int(form['tail_length']) if 'tail_length' in form else None
 	size = parse_int(form['size']) if 'size' in form else 2
 	spacing = parse_int(form['spacing']) if 'spacing' in form else 3
 	period = parse_int(form['period']) if 'period' in form else 5
 	step = parse_int(form['step']) if 'step' in form else None
 	num_sparkles = parse_int(form['num_sparkles']) if 'num_sparkles' in form else None
-	colorwheel_offset = parse_int(form['colorwheel_offset']) if 'colorwheel_offset' in form else None
+	colorwheel_offset = parse_int(form['colorwheel_offset']) if 'colorwheel_offset' in form else 0
 	reverse = parse_bool(form['reverse']) if 'reverse' in form else False
 	bounce = parse_bool(form['bounce']) if 'bounce' in form else False
 	ring = parse_bool(form['ring']) if 'ring' in form else False
