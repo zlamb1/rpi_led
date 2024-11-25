@@ -96,7 +96,7 @@ export default function App() {
           </CardContent>
         </Card>
         <Card className="p-3 px-8 w-full sm:w-[50%]">
-          <CardHeader title={`Speed: ${state?.speed} sec`}
+          <CardHeader title={`Animation Options`}
                       titleTypographyProps={{className: 'text-[1.25rem] font-bold'}}/>
           <CardContent className="pt-0">
             <AnimationOptions state={state}

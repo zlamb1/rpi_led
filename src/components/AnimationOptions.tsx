@@ -1,8 +1,9 @@
-import {Slider} from "@mui/material";
+import {FormHelperText, FormLabel, Slider} from "@mui/material";
 import {Dispatch, ReactNode, SetStateAction} from "react";
 import CometAnimationOptions from "./options/CometAnimationOptions.tsx";
 import {AnimationState, ChaseAnimationState, CometAnimationState} from "./animation-state.ts";
 import ChaseAnimationOptions from "./options/ChaseAnimationOptions.tsx";
+import {FormControl} from "@mui/base";
 
 export interface AnimationOptionsProps {
   state?: AnimationState;
@@ -33,17 +34,21 @@ export default function AnimationOptions({
 
   return (
     <div className="flex flex-col gap-5">
-      <Slider aria-label="Speed"
-              value={state?.speed ?? minSpeed}
-              onChange={(_evt, value) => setState?.(prev => ({
-                ...prev,
-                speed: Array.isArray(value) ? value[0] : value
-              } as AnimationState))}
-              marks={[{value: minSpeed, label: `${minSpeed} sec`}, {value: maxSpeed, label: `${maxSpeed} sec`}]}
-              min={minSpeed}
-              max={maxSpeed}
-              step={speedStep}
-      />
+      <FormControl>
+        <FormLabel>Speed</FormLabel>
+        <Slider aria-label="Speed"
+                value={state?.speed ?? minSpeed}
+                onChange={(_evt, value) => setState?.(prev => ({
+                  ...prev,
+                  speed: Array.isArray(value) ? value[0] : value
+                } as AnimationState))}
+                marks={[{value: minSpeed, label: `${minSpeed} sec`}, {value: maxSpeed, label: `${maxSpeed} sec`}]}
+                min={minSpeed}
+                max={maxSpeed}
+                step={speedStep}
+        />
+        <FormHelperText>The speed in seconds of the animation.</FormHelperText>
+      </FormControl>
       {optionsComponent}
     </div>
   );
