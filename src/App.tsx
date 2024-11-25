@@ -12,29 +12,14 @@ import AnimationButtons from "./components/AnimationButtons.tsx";
 import AnimationOptions from "./components/AnimationOptions.tsx";
 import {AnimationState, isAnimationState} from "./animation-state.ts";
 import BottomAppBar from "./components/BottomAppBar.tsx";
-
-export const API_ENDPOINT = 'http://raspberrypi.local:5000';
-
-function hexFromArray(array: unknown) {
-  if (!Array.isArray(array) || array.length < 3) {
-    throw new Error('Cannot parse hex value without three components.');
-  }
-
-  let str = '#';
-  for (let i = 0; i < 3; i++) {
-    const hex = array[i].toString(16);
-    str += hex.length == 1 ? "0" + hex : hex;
-  }
-
-  return str;
-}
+import {AnimationProps, getAnimationValue, LED_ANIMATIONS} from "./animation-props.ts";
+import {HexColorPicker} from "react-colorful";
+import {API_ENDPOINT, formatState} from "./api-helper.ts";
 
 async function api_animation(state?: AnimationState) {
   if (!state) return true;
 
   const formData = new FormData();
-
-  const colorKeys = ['color'];
 
   for (const key of Object.keys(state)) {
     const value = state[key as keyof AnimationState];
@@ -42,12 +27,6 @@ async function api_animation(state?: AnimationState) {
       if (typeof value === 'string') {
         formData.append(key, value);
       } else {
-        // parse RGB array into hex string
-        if (colorKeys.includes(key)) {
-          formData.append(key, hexFromArray(value));
-          continue;
-        }
-
         const valueAsString = value.toString?.();
         if (valueAsString) {
           formData.append(key, valueAsString);
@@ -79,6 +58,7 @@ export default function App() {
         .then(res => {
           res.json().then(data => {
             if (isAnimationState(data)) {
+              formatState(data);
               setAnimationState(data as AnimationState);
             }
           }).catch(() => {
@@ -101,34 +81,54 @@ export default function App() {
     }
   }
 
+  const animationProps: AnimationProps | undefined = LED_ANIMATIONS.find(props => getAnimationValue(props)?.toLowerCase() === state?.animation_name?.toLowerCase());
+
+  function renderColorPicker() {
+    if (animationProps?.color) {
+      return (
+        <Card>
+          <CardHeader title="Color" titleTypographyProps={{className: 'text-[1.25rem] font-bold'}}/>
+          <CardContent>
+            <HexColorPicker color={state?.color}
+                            onChange={color => setAnimationState(prev => ({...prev, color} as AnimationState))}
+            />
+          </CardContent>
+        </Card>
+      )
+    }
+  }
+
   return (
     <Box className="flex flex-col items-center">
       <NetworkDialog msg={networkError}
                      show={!!networkError}
                      onCancel={() => setNetworkError('')}
                      onRetry={() => setCounter(prev => prev + 1)}/>
-      <div className="w-full md:w-[90%] lg:w-[90%] flex flex-col sm:flex-row justify-center gap-3 pb-16">
-        <Card className="p-3 w-[95%] sm:w-[50%] flex flex-col items-center lg:items-stretch">
-          <CardHeader title="Animations" titleTypographyProps={{className: 'text-[1.25rem] font-bold'}}/>
-          <CardContent className="pt-0 grid grid-cols-2 sm:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-1">
-            <AnimationButtons className="flex-1"
-                              state={state}
-                              setState={setAnimationState}
-            />
-          </CardContent>
-        </Card>
-        <Card className="p-3 px-8 w-[95%] sm:w-[50%]">
-          <CardHeader title={`Animation Options`}
-                      titleTypographyProps={{className: 'text-[1.25rem] font-bold'}}/>
-          <CardContent className="pt-0">
-            <AnimationOptions state={state}
-                              setState={setAnimationState}
-                              onChangeSpeed={(speed: number) => setAnimationState(prev => ({
-                                ...prev,
-                                speed
-                              } as AnimationState))}/>
-          </CardContent>
-        </Card>
+      <div className="w-full md:w-[90%] lg:w-[90%] flex flex-col gap-3 pb-16">
+        <div className="w-full flex flex-col sm:flex-row justify-center gap-3">
+          <Card className="p-3 w-[95%] sm:w-[50%] flex flex-col items-center lg:items-stretch">
+            <CardHeader title="Animations" titleTypographyProps={{className: 'text-[1.25rem] font-bold'}}/>
+            <CardContent className="pt-0 grid grid-cols-2 sm:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-1">
+              <AnimationButtons className="flex-1"
+                                state={state}
+                                setState={setAnimationState}
+              />
+            </CardContent>
+          </Card>
+          <Card className="p-3 px-8 w-[95%] sm:w-[50%]">
+            <CardHeader title={`Animation Options`}
+                        titleTypographyProps={{className: 'text-[1.25rem] font-bold'}}/>
+            <CardContent className="pt-0">
+              <AnimationOptions state={state}
+                                setState={setAnimationState}
+                                onChangeSpeed={(speed: number) => setAnimationState(prev => ({
+                                  ...prev,
+                                  speed
+                                } as AnimationState))}/>
+            </CardContent>
+          </Card>
+        </div>
+        {renderColorPicker()}
       </div>
       <BottomAppBar onSend={setAnimation}/>
     </Box>

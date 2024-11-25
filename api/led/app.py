@@ -1,5 +1,6 @@
 import led.animation_type
 import led.parse
+from Cryptodome.SelfTest.Hash.test_cSHAKE import descr
 
 
 class LEDApp:
@@ -36,8 +37,12 @@ class LEDApp:
         descriptor["animation_name"] = name
         descriptor["speed"] = animation.speed
 
-        if name == "solid" or name == "blink" or name == "comet" or name == "pulse" or name == "sparkle" or name == "sparkle_pulse":
+        if name == "solid" or name == "blink" or name == "comet" or name == "pulse" or name == "sparkle_pulse":
             descriptor["color"] = animation.color
+
+        if name == "sparkle":
+            # for some reason I cannot discern, Sparkle will not return a correct color using the color property
+            descriptor["color"] = animation._sparkle_color
 
         if name == "chase" or name == "rainbow_chase":
             descriptor["size"] = animation._size

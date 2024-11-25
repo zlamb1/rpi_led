@@ -2,7 +2,7 @@ import {Dispatch, ReactNode, SetStateAction} from "react";
 import Button from "@mui/material/Button";
 import {AnimationProps, getAnimationValue, LED_ANIMATIONS} from "../animation-props.ts";
 import {AnimationState, isAnimationState} from "../animation-state.ts";
-import {API_ENDPOINT} from "../App.tsx";
+import {API_ENDPOINT, formatState} from "../api-helper.ts";
 
 interface AnimationButtonProps {
   label: string;
@@ -29,6 +29,7 @@ export default function AnimationButtons({className, state, setState}: {
         .then(res => {
           res.json().then(data => {
             if (isAnimationState(data)) {
+              formatState(data);
               setState(data as AnimationState);
             }
           });

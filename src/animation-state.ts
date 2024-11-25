@@ -1,7 +1,7 @@
 export interface AnimationState {
   animation_name: string;
   speed: number;
-  color: string | Array<number>;
+  color: string;
 }
 
 export function isAnimationState(state: unknown) {
