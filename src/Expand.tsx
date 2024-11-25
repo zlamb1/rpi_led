@@ -1,6 +1,5 @@
 import {AnimatePresence, motion} from 'framer-motion';
 import {ReactNode, useEffect, useRef, useState} from "react";
-import {twMerge} from "tailwind-merge";
 
 export interface ExpandProps {
   children?: ReactNode;
@@ -33,7 +32,7 @@ export default function Expand({children, className, initial, layout}: ExpandPro
   return (
     <AnimatePresence initial={initial}>
       <motion.div className="overflow-y-hidden" animate={{height}} layout={layout}>
-        <div className={twMerge('p-1', className)} ref={ref}>
+        <div className={className} ref={ref}>
           {children}
         </div>
       </motion.div>

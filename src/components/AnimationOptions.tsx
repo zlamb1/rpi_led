@@ -1,10 +1,11 @@
 import {FormHelperText, FormLabel, Slider} from "@mui/material";
 import {Dispatch, ReactNode, SetStateAction} from "react";
 import CometAnimationOptions from "./options/CometAnimationOptions.tsx";
-import {AnimationState, ChaseAnimationState, CometAnimationState} from "../animation-state.ts";
+import {AnimationState, ChaseAnimationState, CometAnimationState, PulseAnimationState} from "../animation-state.ts";
 import ChaseAnimationOptions from "./options/ChaseAnimationOptions.tsx";
 import {FormControl} from "@mui/base";
 import Expand from "../Expand.tsx";
+import PulseAnimationOptions from "./options/PulseAnimationOptions.tsx";
 
 export interface AnimationOptionsProps {
   state?: AnimationState;
@@ -31,10 +32,13 @@ export default function AnimationOptions({
     case 'comet':
       optionsComponent = CometAnimationOptions({state: state as CometAnimationState, setState});
       break;
+    case 'pulse':
+      optionsComponent = PulseAnimationOptions({state: state as PulseAnimationState, setState});
+      break;
   }
 
   return (
-    <div className="flex flex-col gap-5">
+    <div className="flex flex-col gap-3">
       <FormControl>
         <FormLabel>Speed</FormLabel>
         <Slider aria-label="Speed"
@@ -50,7 +54,7 @@ export default function AnimationOptions({
         />
         <FormHelperText>The speed in seconds of the animation.</FormHelperText>
       </FormControl>
-      <Expand initial={false}>
+      <Expand className="flex flex-col gap-5" initial={false}>
         {optionsComponent}
       </Expand>
     </div>
