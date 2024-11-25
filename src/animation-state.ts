@@ -1,8 +1,18 @@
+import {createContext, Dispatch, SetStateAction} from "react";
+
 export interface AnimationState {
   animation_name: string;
   speed: number;
   color: string;
 }
+
+type AnimationStateContext = {
+  state: AnimationState | undefined;
+  setState: Dispatch<SetStateAction<AnimationState | undefined>>;
+} | undefined;
+
+export const GlobalAnimationState = createContext<AnimationStateContext>(undefined);
+export const PossibleAnimationState = createContext<AnimationStateContext>(undefined);
 
 export function isAnimationState(state: unknown) {
   return state instanceof Object && "animation_name" in state && "speed" in state;

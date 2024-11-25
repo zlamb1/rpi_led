@@ -47,6 +47,7 @@ const defaultErrorMsg = 'A network error occurred while attempting to connect to
 
 export default function App() {
   const [state, setAnimationState] = useState<AnimationState>();
+  const [possibleState, setPossibleState] = useState<AnimationState>();
   const [networkError, setNetworkError] = useState<string>('');
   const [counter, setCounter] = useState(1);
 

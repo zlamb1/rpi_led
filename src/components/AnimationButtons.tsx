@@ -14,6 +14,8 @@ export default function AnimationButtons({className, state, setState}: {
   className?: string,
   state?: AnimationState,
   setState?: Dispatch<SetStateAction<AnimationState | undefined>>,
+  possibleState?: AnimationState,
+  setPossibleState?: Dispatch<SetStateAction<AnimationState | undefined>>,
 }) {
   const animations: AnimationButtonProps[] = LED_ANIMATIONS.map((props: AnimationProps) => ({
     label: props.label,
