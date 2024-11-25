@@ -1,6 +1,5 @@
 import {Dispatch, ReactNode, SetStateAction} from "react";
 import Button from "@mui/material/Button";
-import {twMerge} from "tailwind-merge";
 import {AnimationProps, getAnimationValue, LED_ANIMATIONS} from "../animation-props.ts";
 import {AnimationState, isAnimationState} from "./animation-state.ts";
 import {API_ENDPOINT} from "../App.tsx";
@@ -39,7 +38,7 @@ export default function AnimationButtons({className, state, setState}: {
 
   return animations.map(props =>
     <Button key={getAnimationValue(props)}
-            className={twMerge("min-w-[200px]", className)}
+            className={className}
             variant={getAnimationValue(props)?.toLowerCase() === state?.animation_name?.toLowerCase?.() ? "contained" : "outlined"}
             onClick={() => onSetAnimation(props)}
     >
