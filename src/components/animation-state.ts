@@ -46,8 +46,6 @@ export interface CometAnimationState extends SingleColorAnimationState {
 export interface PulseAnimationState extends SingleColorAnimationState {
   /* period to pulse LEDs */
   period: number;
-  /* duration to hold min/max intensity */
-  breath: number;
   /* lowest brightness level */
   min_intensity: number;
   /* highest brightness level */
