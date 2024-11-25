@@ -2,6 +2,7 @@ import {ReactNode, useState} from "react";
 import Button from "@mui/material/Button";
 import {twMerge} from "tailwind-merge";
 import {CircularProgress} from "@mui/material";
+import {AnimationProps, LED_ANIMATIONS} from "../animation-props.ts";
 
 interface AnimationButtonProps {
   label: string;
@@ -16,20 +17,10 @@ export default function AnimationButtons({className, currentAnimation = '', onSe
 }) {
   const [loadingAnimation, setLoadingAnimation] = useState<string | undefined>();
 
-  const animations: AnimationButtonProps[] = [
-    {label: 'Solid'},
-    {label: 'Blink'},
-    {label: 'Chase'},
-    {label: 'Comet'},
-    {label: 'Pulse'},
-    {label: 'Rainbow'},
-    {label: 'Sparkle'},
-    {label: 'Rainbow Chase', value: 'Rainbow_Chase'},
-    {label: 'Rainbow Comet', value: 'Rainbow_Comet'},
-    {label: 'Rainbow Sparkle', value: 'Rainbow_Sparkle'},
-    {label: 'Sparkle Pulse', value: 'Sparkle_Pulse'},
-    {label: 'Music'},
-  ];
+  const animations: AnimationButtonProps[] = LED_ANIMATIONS.map((props: AnimationProps) => ({
+    label: props.label,
+    value: props?.value
+  }));
 
   function value(props: AnimationButtonProps) {
     return props.value ?? props.label;

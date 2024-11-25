@@ -6,9 +6,10 @@ import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
 
 import {useEffect, useState} from 'react';
-import {Card, CardContent, CardHeader, Slider} from "@mui/material";
+import {Card, CardContent, CardHeader} from "@mui/material";
 import NetworkDialog from "./components/NetworkDialog.tsx";
 import AnimationButtons from "./components/AnimationButtons.tsx";
+import AnimationOptions from "./components/AnimationOptions.tsx";
 
 const API_ENDPOINT = 'http://raspberrypi.local:5000';
 
@@ -36,7 +37,7 @@ const defaultErrorMsg = 'A network error occurred while attempting to connect to
 
 export default function App() {
   const [animationName, setAnimationName] = useState<string | undefined>();
-  const [speed, setSpeed] = useState<number>(0.25);
+  const [speed, setSpeed] = useState<number>(0.1);
   const [networkError, setNetworkError] = useState<string>('');
   const [counter, setCounter] = useState(1);
 
@@ -94,15 +95,7 @@ export default function App() {
         <Card className="p-3 px-8">
           <CardHeader title={`Speed: ${speed} sec`} titleTypographyProps={{className: 'text-[1.25rem] font-bold'}}/>
           <CardContent className="pt-0">
-            <Slider aria-label="Speed"
-                    style={{width: 200}}
-                    value={speed}
-                    onChange={(_evt, value) => setSpeed(Array.isArray(value) ? value[0] : value)}
-                    marks={[{value: 0.1, label: '0.1 sec'}, {value: 5, label: '5 sec'}]}
-                    min={0.1}
-                    max={5}
-                    step={0.1}
-            />
+            <AnimationOptions speed={speed} onChangeSpeed={setSpeed}/>
           </CardContent>
         </Card>
       </div>
