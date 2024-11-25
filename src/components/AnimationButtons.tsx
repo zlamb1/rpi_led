@@ -22,18 +22,21 @@ export default function AnimationButtons({className, state, setState}: {
 
   async function onSetAnimation(props: AnimationButtonProps) {
     const name = getAnimationValue(props);
-    setState?.(prev => ({...prev, animation_name: name} as AnimationState));
-    // fetch default descriptor state
-    if (name && setState) {
-      fetch(`${API_ENDPOINT}/api/animation/descriptor/${name}`, {method: 'GET'})
-        .then(res => {
-          res.json().then(data => {
-            if (isAnimationState(data)) {
-              formatState(data);
-              setState(data as AnimationState);
-            }
+
+    if (name.toLowerCase() !== state?.animation_name?.toLowerCase()) {
+      setState?.(prev => ({...prev, animation_name: name} as AnimationState));
+      // fetch default descriptor state
+      if (name && setState) {
+        fetch(`${API_ENDPOINT}/api/animation/descriptor/${name}`, {method: 'GET'})
+          .then(res => {
+            res.json().then(data => {
+              if (isAnimationState(data)) {
+                formatState(data);
+                setState(data as AnimationState);
+              }
+            });
           });
-        });
+      }
     }
   }
 
