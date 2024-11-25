@@ -1,11 +1,18 @@
 import {FormHelperText, FormLabel, Slider} from "@mui/material";
 import {Dispatch, ReactNode, SetStateAction} from "react";
 import CometAnimationOptions from "./options/CometAnimationOptions.tsx";
-import {AnimationState, ChaseAnimationState, CometAnimationState, PulseAnimationState} from "../animation-state.ts";
+import {
+  AnimationState,
+  ChaseAnimationState,
+  CometAnimationState,
+  PulseAnimationState,
+  RainbowAnimationState
+} from "../animation-state.ts";
 import ChaseAnimationOptions from "./options/ChaseAnimationOptions.tsx";
 import {FormControl} from "@mui/base";
 import Expand from "../Expand.tsx";
 import PulseAnimationOptions from "./options/PulseAnimationOptions.tsx";
+import RainbowAnimationOptions from "./options/RainbowAnimationOptions.tsx";
 
 export interface AnimationOptionsProps {
   state?: AnimationState;
@@ -34,6 +41,9 @@ export default function AnimationOptions({
       break;
     case 'pulse':
       optionsComponent = PulseAnimationOptions({state: state as PulseAnimationState, setState});
+      break;
+    case 'rainbow':
+      optionsComponent = RainbowAnimationOptions({state: state as RainbowAnimationState, setState});
       break;
   }
 

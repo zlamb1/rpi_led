@@ -33,7 +33,7 @@ export function NumericFormControl({property, label, helperText, state, setState
 }) {
   return (
     <FormControl>
-      {label && <FormLabel>Size</FormLabel>}
+      {label && <FormLabel>{label}</FormLabel>}
       <NumberInput value={state?.[property as keyof AnimationState] as number ?? 0}
                    onChange={(_evt, value) => setState?.(prev => ({...prev, [property]: value} as AnimationState))}
                    placeholder={label && `Enter ${label.toLowerCase()}`}
