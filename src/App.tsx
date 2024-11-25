@@ -98,8 +98,8 @@ export default function App() {
         <Card>
           <CardHeader title="Color" titleTypographyProps={{className: 'text-[1.25rem] font-bold'}}/>
           <CardContent>
-            <HexColorPicker color={state?.color}
-                            onChange={color => setAnimationState(prev => ({...prev, color} as AnimationState))}
+            <HexColorPicker color={possibleState?.color}
+                            onChange={color => setPossibleState(prev => ({...prev, color} as AnimationState))}
             />
           </CardContent>
         </Card>
