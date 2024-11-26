@@ -20,7 +20,10 @@ def get_animation():
 
 @app.route("/api/animation/descriptor/<name>", methods=['GET'])
 def get_default_descriptor(name):
-    return led_app.get_default_descriptor(name)
+    descriptor = led_app.get_default_descriptor(name)
+    # the default descriptor is not playing
+    descriptor["is_playing"] = False
+    return descriptor
 
 @app.route("/api/animation/resume", methods=['POST'])
 def play_animation():
