@@ -9,6 +9,7 @@ import {
   PossibleAnimationState
 } from "../animation-state.ts";
 import {API_ENDPOINT, formatState} from "../api-helper.ts";
+import {twMerge} from "tailwind-merge";
 
 export default function AnimationButtons({className}: {
   className?: string,
@@ -45,13 +46,14 @@ export default function AnimationButtons({className}: {
     const isPossible = value === possibleState?.animation_name?.toLowerCase?.();
     return (
       <Button key={getAnimationValue(props)}
-              className={className}
+              className={twMerge("flex justify-start items-center gap-1", className)}
               color={!isSynced && isPossible ? 'secondary' : undefined}
               variant={isActive || isPossible
                 ? "contained" : "outlined"
               }
               onClick={() => onSetAnimation(props)}
       >
+        {props?.icon && <props.icon/>}
         {props.label}
       </Button>
     )
