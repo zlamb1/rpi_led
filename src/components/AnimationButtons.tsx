@@ -2,10 +2,10 @@ import {ReactNode, useContext} from "react";
 import Button from "@mui/material/Button";
 import {AnimationProps, getAnimationValue, LED_ANIMATIONS} from "../animation-props.ts";
 import {
-  ActiveAnimationStateProvider,
+  ActiveAnimationState,
   AnimationState,
   isAnimationState,
-  PossibleAnimationStateProvider
+  PossibleAnimationState
 } from "../animation-state.ts";
 import {API_ENDPOINT, formatState} from "../api-helper.ts";
 
@@ -18,8 +18,8 @@ interface AnimationButtonProps {
 export default function AnimationButtons({className}: {
   className?: string,
 }) {
-  const {state, setState} = useContext(ActiveAnimationStateProvider);
-  const {state: possibleState, setState: setPossibleState} = useContext(PossibleAnimationStateProvider);
+  const {state, setState} = useContext(ActiveAnimationState);
+  const {state: possibleState, setState: setPossibleState} = useContext(PossibleAnimationState);
 
   const animations: AnimationButtonProps[] = LED_ANIMATIONS.map((props: AnimationProps) => ({
     label: props.label,

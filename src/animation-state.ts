@@ -12,8 +12,9 @@ type AnimationStateContext = {
   setState?: Dispatch<SetStateAction<AnimationState | undefined>>;
 };
 
-export const ActiveAnimationStateProvider = createContext<AnimationStateContext>({});
-export const PossibleAnimationStateProvider = createContext<AnimationStateContext>({});
+export const ActiveAnimationState = createContext<AnimationStateContext>({});
+export const PossibleAnimationState = createContext<AnimationStateContext>({});
+export const AnimationStateSynced = createContext<boolean>(true);
 
 export function isAnimationState(state: unknown) {
   return state instanceof Object && "animation_name" in state && "speed" in state;
