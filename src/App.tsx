@@ -5,13 +5,14 @@ import '@fontsource/roboto/400.css';
 import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
 
-import {Fragment, useEffect, useState} from 'react';
+import {useEffect, useState} from 'react';
 import {
   AppBar,
   Box,
   Card,
   CardContent,
   CardHeader,
+  Collapse,
   Divider,
   FormHelperText,
   InputLabel,
@@ -96,7 +97,6 @@ export default function App() {
                 <Park/>
               </Toolbar>
             </AppBar>
-
             <NetworkDialog msg={networkError}
                            show={!!networkError}
                            onCancel={() => setNetworkError('')}
@@ -109,24 +109,21 @@ export default function App() {
                     <div className="grid grid-cols-2 sm:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-1">
                       <AnimationButtons className="flex-1"/>
                     </div>
-                    {
-                      animationProps?.color &&
-                      <Fragment>
-                        <Divider className="w-full"/>
-                        <div className="flex gap-3">
-                          <HexColorPicker color={possibleState?.color}
-                                          onChange={color => setPossibleState(prev => ({
-                                            ...prev,
-                                            color
-                                          } as AnimationState))}/>
-                          <FormControl>
-                            <InputLabel>Color</InputLabel>
-                            <TextField value={possibleState?.color ?? ''}/>
-                            <FormHelperText>The color of the animation.</FormHelperText>
-                          </FormControl>
-                        </div>
-                      </Fragment>
-                    }
+                    <Collapse in={!!animationProps?.color}>
+                      <Divider className="w-full"/>
+                      <div className="flex gap-3">
+                        <HexColorPicker color={possibleState?.color}
+                                        onChange={color => setPossibleState(prev => ({
+                                          ...prev,
+                                          color
+                                        } as AnimationState))}/>
+                        <FormControl>
+                          <InputLabel>Color</InputLabel>
+                          <TextField value={possibleState?.color ?? ''}/>
+                          <FormHelperText>The color of the animation.</FormHelperText>
+                        </FormControl>
+                      </div>
+                    </Collapse>
                   </CardContent>
                 </Card>
                 <Card className="p-3 px-8 w-[95%] sm:w-[50%]">
