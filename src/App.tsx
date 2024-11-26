@@ -23,6 +23,7 @@ import {API_ENDPOINT, formatState} from "./api-helper.ts";
 import {HexColorPicker} from "react-colorful";
 import * as _ from "lodash";
 import {FormControl} from "@mui/base";
+import {PlayAlert} from "./components/alerts/PlayAlert.tsx";
 
 const defaultErrorMsg = 'A network error occurred while attempting to connect to the remote device.';
 
@@ -76,7 +77,8 @@ export default function App() {
     <ActiveAnimationState.Provider value={{state, setState: setAnimationState}}>
       <PossibleAnimationState.Provider value={{state: possibleState, setState: setPossibleState}}>
         <AnimationStateSynced.Provider value={isSynced}>
-          <Box className="flex flex-col items-center">
+          <Box className="relative flex flex-col items-center">
+            <PlayAlert className="absolute top-[5px] margin-auto"/>
             <NetworkDialog msg={networkError}
                            show={!!networkError}
                            onCancel={() => setNetworkError('')}
