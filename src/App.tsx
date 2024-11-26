@@ -23,8 +23,7 @@ import {API_ENDPOINT, formatState} from "./api-helper.ts";
 import {HexColorPicker} from "react-colorful";
 import usePrevious from "./usePrevious.ts";
 import * as _ from "lodash";
-import PlayButton from "./components/PlayButton.tsx";
-import {setAnimation} from "./animation-api.ts";
+import PlayIndicator from "./components/PlayIndicator.tsx";
 
 const defaultErrorMsg = 'A network error occurred while attempting to connect to the remote device.';
 
@@ -62,8 +61,7 @@ export default function App() {
       // the possible state is out of sync with the active state and should not be playing
       setPossibleState(prev => ({...prev, is_playing: false} as AnimationState));
     }
-  }, [prevState, state, possibleState]);
-
+  }, [isSynced, prevState, state, possibleState]);
 
   const animationProps: AnimationProps | undefined = LED_ANIMATIONS.find(
     props => getAnimationValue(props)?.toLowerCase() === possibleState?.animation_name?.toLowerCase()
@@ -101,7 +99,7 @@ export default function App() {
                     <div className="grid grid-cols-2 sm:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-1">
                       <AnimationButtons className="flex-1"/>
                     </div>
-                    <PlayButton/>
+                    <PlayIndicator/>
                   </CardContent>
                 </Card>
                 <Card className="p-3 px-8 w-[95%] sm:w-[50%]">
@@ -117,7 +115,7 @@ export default function App() {
               </div>
               {renderColorPicker()}
             </div>
-            <BottomAppBar onSend={() => setAnimation(possibleState, setAnimationState)}/>
+            <BottomAppBar/>
           </Box>
         </AnimationStateSynced.Provider>
       </PossibleAnimationState.Provider>
