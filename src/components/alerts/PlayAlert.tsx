@@ -25,7 +25,7 @@ export function PlayAlert({className, style}: { className?: string, style?: CSSP
   return (
     <Collapse className={className} style={style} in={isOpen}>
       <Alert severity="info" action={action()}>
-        You have made changes to the active animation. Press play to update the animation.
+        You have made changes to the active animation.
       </Alert>
     </Collapse>
   )
