@@ -6,7 +6,7 @@ import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
 
 import {Fragment, useEffect, useState} from 'react';
-import {Box, Card, CardContent, CardHeader, Divider} from "@mui/material";
+import {Box, Card, CardContent, CardHeader, Divider, FormHelperText, InputLabel, TextField} from "@mui/material";
 import NetworkDialog from "./components/NetworkDialog.tsx";
 import AnimationButtons from "./components/AnimationButtons.tsx";
 import AnimationOptions from "./components/AnimationOptions.tsx";
@@ -22,6 +22,7 @@ import {AnimationProps, getAnimationValue, LED_ANIMATIONS} from "./animation-pro
 import {API_ENDPOINT, formatState} from "./api-helper.ts";
 import {HexColorPicker} from "react-colorful";
 import * as _ from "lodash";
+import {FormControl} from "@mui/base";
 
 const defaultErrorMsg = 'A network error occurred while attempting to connect to the remote device.';
 
@@ -55,10 +56,17 @@ export default function App() {
   }, [state]);
 
   useEffect(() => {
-    if (!isSynced && possibleState?.is_playing) {
-      setPossibleState(prev => ({...prev, is_playing: false} as AnimationState));
+    if (!isSynced) {
+      if (_.isEqual({...possibleState, is_playing: state?.is_playing}, state)) {
+        setPossibleState(state);
+        return;
+      }
+
+      if (possibleState?.is_playing) {
+        setPossibleState(prev => ({...prev, is_playing: false} as AnimationState));
+      }
     }
-  }, [isSynced, possibleState]);
+  }, [state, isSynced, possibleState]);
 
   const animationProps: AnimationProps | undefined = LED_ANIMATIONS.find(
     props => getAnimationValue(props)?.toLowerCase() === possibleState?.animation_name?.toLowerCase()
@@ -85,12 +93,18 @@ export default function App() {
                       animationProps?.color &&
                       <Fragment>
                         <Divider className="w-full"/>
-                        <HexColorPicker color={possibleState?.color}
-                                        onChange={color => setPossibleState(prev => ({
-                                          ...prev,
-                                          color
-                                        } as AnimationState))}
-                        />
+                        <div className="flex gap-3">
+                          <HexColorPicker color={possibleState?.color}
+                                          onChange={color => setPossibleState(prev => ({
+                                            ...prev,
+                                            color
+                                          } as AnimationState))}/>
+                          <FormControl>
+                            <InputLabel>Color</InputLabel>
+                            <TextField value={possibleState?.color ?? ''}/>
+                            <FormHelperText>The color of the animation.</FormHelperText>
+                          </FormControl>
+                        </div>
                       </Fragment>
                     }
                   </CardContent>
