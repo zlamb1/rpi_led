@@ -31,7 +31,7 @@ def play_animation():
     if animation is None:
         return {"status": 404}
     animation.resume()
-    return {"status": 200}
+    return led_app.get_animation_descriptor()
 
 @app.route("/api/animation/pause", methods=['POST'])
 def pause_animation():
@@ -39,7 +39,7 @@ def pause_animation():
     if animation is None:
         return {"status": 404}
     animation.freeze()
-    return {"status": 200}
+    return led_app.get_animation_descriptor()
 
 @app.route("/api/animation", methods=['POST'])
 def post_animation():
