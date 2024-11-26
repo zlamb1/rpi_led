@@ -110,18 +110,20 @@ export default function App() {
                       <AnimationButtons className="flex-1"/>
                     </div>
                     <Collapse in={!!animationProps?.color}>
-                      <Divider className="w-full"/>
-                      <div className="flex gap-3">
-                        <HexColorPicker color={possibleState?.color}
-                                        onChange={color => setPossibleState(prev => ({
-                                          ...prev,
-                                          color
-                                        } as AnimationState))}/>
-                        <FormControl>
-                          <InputLabel>Color</InputLabel>
-                          <TextField value={possibleState?.color ?? ''}/>
-                          <FormHelperText>The color of the animation.</FormHelperText>
-                        </FormControl>
+                      <div className="flex flex-col gap-3">
+                        <Divider className="w-full"/>
+                        <div className="flex gap-3">
+                          <HexColorPicker color={possibleState?.color}
+                                          onChange={color => setPossibleState(prev => ({
+                                            ...prev,
+                                            color
+                                          } as AnimationState))}/>
+                          <FormControl>
+                            <InputLabel>Color</InputLabel>
+                            <TextField value={possibleState?.color ?? ''}/>
+                            <FormHelperText>The color of the animation.</FormHelperText>
+                          </FormControl>
+                        </div>
                       </div>
                     </Collapse>
                   </CardContent>
