@@ -21,7 +21,6 @@ import BottomAppBar from "./components/BottomAppBar.tsx";
 import {AnimationProps, getAnimationValue, LED_ANIMATIONS} from "./animation-props.ts";
 import {API_ENDPOINT, formatState} from "./api-helper.ts";
 import {HexColorPicker} from "react-colorful";
-import usePrevious from "./usePrevious.ts";
 import * as _ from "lodash";
 
 const defaultErrorMsg = 'A network error occurred while attempting to connect to the remote device.';
@@ -32,8 +31,7 @@ export default function App() {
   const [networkError, setNetworkError] = useState<string>('');
   const [counter, setCounter] = useState(1);
 
-  const prevState = usePrevious(state);
-  const isSynced = _.isEqual(prevState, possibleState);
+  const isSynced = _.isEqual(state, possibleState);
 
   // fetch active animation on load
   useEffect(() => {
@@ -53,14 +51,14 @@ export default function App() {
   }, [counter]);
 
   useEffect(() => {
-    if (_.isEqual(prevState, possibleState)) {
-      // if we don't have any pending changes then update possible state to match new state
-      setPossibleState(state);
-    } else if (!isSynced && possibleState?.is_playing) {
-      // the possible state is out of sync with the active state and should not be playing
+    setPossibleState(state);
+  }, [state]);
+
+  useEffect(() => {
+    if (!isSynced && possibleState?.is_playing) {
       setPossibleState(prev => ({...prev, is_playing: false} as AnimationState));
     }
-  }, [isSynced, prevState, state, possibleState]);
+  }, [isSynced, possibleState]);
 
   const animationProps: AnimationProps | undefined = LED_ANIMATIONS.find(
     props => getAnimationValue(props)?.toLowerCase() === possibleState?.animation_name?.toLowerCase()
@@ -85,12 +83,15 @@ export default function App() {
                     </div>
                     {
                       animationProps?.color &&
-                        <Fragment>
-                          <Divider className="w-full"/>
-                          <HexColorPicker color={possibleState?.color}
-                                          onChange={color => setPossibleState(prev => ({...prev, color} as AnimationState))}
-                          />
-                        </Fragment>
+                      <Fragment>
+                        <Divider className="w-full"/>
+                        <HexColorPicker color={possibleState?.color}
+                                        onChange={color => setPossibleState(prev => ({
+                                          ...prev,
+                                          color
+                                        } as AnimationState))}
+                        />
+                      </Fragment>
                     }
                   </CardContent>
                 </Card>

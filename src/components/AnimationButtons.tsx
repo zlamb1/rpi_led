@@ -1,7 +1,13 @@
 import {useContext} from "react";
 import Button from "@mui/material/Button";
 import {AnimationProps, getAnimationValue, LED_ANIMATIONS} from "../animation-props.ts";
-import {ActiveAnimationState, AnimationState, isAnimationState, PossibleAnimationState} from "../animation-state.ts";
+import {
+  ActiveAnimationState,
+  AnimationState,
+  AnimationStateSynced,
+  isAnimationState,
+  PossibleAnimationState
+} from "../animation-state.ts";
 import {API_ENDPOINT, formatState} from "../api-helper.ts";
 
 export default function AnimationButtons({className}: {
@@ -9,6 +15,7 @@ export default function AnimationButtons({className}: {
 }) {
   const {state, setState} = useContext(ActiveAnimationState);
   const {state: possibleState, setState: setPossibleState} = useContext(PossibleAnimationState);
+  const isSynced = useContext(AnimationStateSynced);
 
   async function onSetAnimation(props: AnimationProps) {
     const name = getAnimationValue(props);
@@ -39,7 +46,7 @@ export default function AnimationButtons({className}: {
     return (
       <Button key={getAnimationValue(props)}
               className={className}
-              color={!isActive && isPossible ? 'secondary' : undefined}
+              color={!isSynced && isPossible ? 'secondary' : undefined}
               variant={isActive || isPossible
                 ? "contained" : "outlined"
               }
