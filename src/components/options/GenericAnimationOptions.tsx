@@ -24,10 +24,13 @@ export function ReverseFormControl({state, setState}: {
   );
 }
 
-export function NumericFormControl({property, label, helperText, state, setState}: {
+export function NumericFormControl({property, label, helperText, min = 0, max, step, state, setState}: {
   property: string;
   label?: string;
   helperText?: string;
+  min?: number;
+  max?: number;
+  step?: number;
   state?: AnimationState,
   setState?: Dispatch<SetStateAction<AnimationState | undefined>>,
 }) {
@@ -35,8 +38,14 @@ export function NumericFormControl({property, label, helperText, state, setState
     <FormControl>
       {label && <FormLabel>{label}</FormLabel>}
       <NumberInput value={state?.[property as keyof AnimationState] as number ?? 0}
-                   onChange={(_evt, value) => setState?.(prev => ({...prev, [property]: value} as AnimationState))}
+                   onChange={(_evt, value) => setState?.(prev => ({
+                     ...prev,
+                     [property]: Math.round((value ?? 0) * 10) / 10
+                   } as AnimationState))}
                    placeholder={label && `Enter ${label.toLowerCase()}`}
+                   min={min}
+                   max={max}
+                   step={step}
       />
       {helperText && <FormHelperText>{helperText}</FormHelperText>}
     </FormControl>

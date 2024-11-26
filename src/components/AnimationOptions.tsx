@@ -20,7 +20,7 @@ export interface AnimationOptionsProps {
 }
 
 export default function AnimationOptions({
-                                           minSpeed = 0.1,
+                                           minSpeed = 0.01,
                                            maxSpeed = 5,
                                            speedStep = minSpeed,
                                          }: AnimationOptionsProps) {

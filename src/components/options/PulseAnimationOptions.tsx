@@ -8,7 +8,8 @@ export default function PulseAnimationOptions({state, setState}: {
 }) {
   return (
     <Fragment>
-      <NumericFormControl property="period" label="Period" helperText="Time period to pulse LEDs." state={state}
+      <NumericFormControl property="period" step={0.1} label="Period" helperText="Time period to pulse LEDs."
+                          state={state}
                           setState={setState}/>
       <NumericFormControl property="min_intensity" label="Minimum Intensity" helperText="Lowest brightness level."
                           state={state} setState={setState}/>
