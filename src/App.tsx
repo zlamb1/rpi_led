@@ -6,7 +6,18 @@ import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
 
 import {Fragment, useEffect, useState} from 'react';
-import {Box, Card, CardContent, CardHeader, Divider, FormHelperText, InputLabel, TextField} from "@mui/material";
+import {
+  AppBar,
+  Box,
+  Card,
+  CardContent,
+  CardHeader,
+  Divider,
+  FormHelperText,
+  InputLabel,
+  TextField,
+  Toolbar
+} from "@mui/material";
 import NetworkDialog from "./components/NetworkDialog.tsx";
 import AnimationButtons from "./components/AnimationButtons.tsx";
 import AnimationOptions from "./components/AnimationOptions.tsx";
@@ -23,6 +34,7 @@ import {API_ENDPOINT, formatState} from "./api-helper.ts";
 import {HexColorPicker} from "react-colorful";
 import * as _ from "lodash";
 import {FormControl} from "@mui/base";
+import {Park} from "@mui/icons-material";
 import {PlayAlert} from "./components/alerts/PlayAlert.tsx";
 
 const defaultErrorMsg = 'A network error occurred while attempting to connect to the remote device.';
@@ -78,12 +90,18 @@ export default function App() {
       <PossibleAnimationState.Provider value={{state: possibleState, setState: setPossibleState}}>
         <AnimationStateSynced.Provider value={isSynced}>
           <Box className="relative flex flex-col items-center">
-            <PlayAlert className="absolute top-[5px] margin-auto"/>
+            <AppBar position="fixed">
+              <Toolbar className="w-full">
+                <PlayAlert className="absolute top-[8px] left-1/2" style={{transform: 'translateX(-50%)'}}/>
+                <Park/>
+              </Toolbar>
+            </AppBar>
+
             <NetworkDialog msg={networkError}
                            show={!!networkError}
                            onCancel={() => setNetworkError('')}
                            onRetry={() => setCounter(prev => prev + 1)}/>
-            <div className="w-full md:w-[90%] lg:w-[90%] flex flex-col gap-3 pb-16">
+            <div className="w-full md:w-[90%] lg:w-[90%] flex flex-col gap-3 py-20">
               <div className="w-full flex flex-col sm:flex-row justify-center gap-3">
                 <Card className="p-3 w-[95%] sm:w-[50%] flex flex-col items-center lg:items-stretch">
                   <CardHeader title="Animations" titleTypographyProps={{className: 'text-[1.25rem] font-bold'}}/>

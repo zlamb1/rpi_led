@@ -1,9 +1,9 @@
 import {Alert, Collapse, IconButton} from "@mui/material";
-import {useContext, useEffect, useState} from "react";
+import {CSSProperties, useContext, useEffect, useState} from "react";
 import {AnimationStateSynced} from "../../animation-state.ts";
 import {Close} from "@mui/icons-material";
 
-export function PlayAlert({className}: {className?: string}) {
+export function PlayAlert({className, style}: { className?: string, style?: CSSProperties }) {
   const [isOpen, setIsOpen] = useState(false);
   const isSynced = useContext(AnimationStateSynced);
 
@@ -23,7 +23,7 @@ export function PlayAlert({className}: {className?: string}) {
   }
 
   return (
-    <Collapse className={className} in={isOpen}>
+    <Collapse className={className} style={style} in={isOpen}>
       <Alert severity="info" action={action()}>
         You have made changes to the active animation. Press play to update the animation.
       </Alert>
