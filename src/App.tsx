@@ -6,7 +6,7 @@ import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
 
 import {useEffect, useState} from 'react';
-import {Box, Card, CardContent, CardHeader} from "@mui/material";
+import {Box, Card, CardContent, CardHeader, Divider} from "@mui/material";
 import NetworkDialog from "./components/NetworkDialog.tsx";
 import AnimationButtons from "./components/AnimationButtons.tsx";
 import AnimationOptions from "./components/AnimationOptions.tsx";
@@ -23,7 +23,6 @@ import {API_ENDPOINT, formatState} from "./api-helper.ts";
 import {HexColorPicker} from "react-colorful";
 import usePrevious from "./usePrevious.ts";
 import * as _ from "lodash";
-import PlayIndicator from "./components/PlayIndicator.tsx";
 
 const defaultErrorMsg = 'A network error occurred while attempting to connect to the remote device.';
 
@@ -70,14 +69,9 @@ export default function App() {
   function renderColorPicker() {
     if (animationProps?.color) {
       return (
-        <Card>
-          <CardHeader title="Color" titleTypographyProps={{className: 'text-[1.25rem] font-bold'}}/>
-          <CardContent>
-            <HexColorPicker color={possibleState?.color}
-                            onChange={color => setPossibleState(prev => ({...prev, color} as AnimationState))}
-            />
-          </CardContent>
-        </Card>
+        <HexColorPicker color={possibleState?.color}
+                        onChange={color => setPossibleState(prev => ({...prev, color} as AnimationState))}
+        />
       );
     }
   }
@@ -99,7 +93,8 @@ export default function App() {
                     <div className="grid grid-cols-2 sm:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-1">
                       <AnimationButtons className="flex-1"/>
                     </div>
-                    <PlayIndicator/>
+                    <Divider className="w-full"/>
+                    {renderColorPicker()}
                   </CardContent>
                 </Card>
                 <Card className="p-3 px-8 w-[95%] sm:w-[50%]">
@@ -113,7 +108,6 @@ export default function App() {
                   </CardContent>
                 </Card>
               </div>
-              {renderColorPicker()}
             </div>
             <BottomAppBar/>
           </Box>
