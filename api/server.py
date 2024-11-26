@@ -22,6 +22,22 @@ def get_animation():
 def get_default_descriptor(name):
     return led_app.get_default_descriptor(name)
 
+@app.route("/api/animation/resume", methods=['POST'])
+def play_animation():
+    animation = led_app.animation
+    if animation is None:
+        return {"status": 404}
+    animation.resume()
+    return {"status": 200}
+
+@app.route("/api/animation/pause", methods=['POST'])
+def pause_animation():
+    animation = led_app.animation
+    if animation is None:
+        return {"status": 404}
+    animation.freeze()
+    return {"status": 200}
+
 @app.route("/api/animation", methods=['POST'])
 def post_animation():
     return led_app.request_animation(request)

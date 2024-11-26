@@ -78,9 +78,12 @@ export default function App() {
   }, [counter]);
 
   useEffect(() => {
-    // if we don't have any pending changes then update possible state to match new state
     if (_.isEqual(prevState, possibleState)) {
+      // if we don't have any pending changes then update possible state to match new state
       setPossibleState(state);
+    } else {
+      // the possible state is out of sync with the active state and isn't playing
+      setPossibleState(prev => ({...prev, is_playing: false} as AnimationState));
     }
   }, [prevState, state, possibleState]);
 

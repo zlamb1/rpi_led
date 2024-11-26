@@ -7,19 +7,17 @@ scolor_animations = ["solid", "blink", "pulse", "sparkle_pulse", "grid_rain"]
 class LEDApp:
     def __init__(self, driver):
         self.driver = driver
-        self.animation = None
-        self.animation_name = None
 
-    def set_animation(self, animation):
-        # Set class metadata
-        self.animation = animation
-        self.animation_name = led.animation_type.from_instance(animation)
+    @property
+    def animation(self):
+        return self.driver.animation
+
+    @animation.setter
+    def animation(self, animation):
         # Acquire mutex
         self.driver.resource_lock.acquire()
         # Set animation
         self.driver.set_animation(animation)
-        # Set animation name
-        self.animation_name = led.animation_type.from_instance(animation)
         # Clear existing pixels to reset animation
         self.driver.clear()
         # Release mutex
@@ -27,16 +25,18 @@ class LEDApp:
 
     def get_animation_descriptor(self, animation=None):
         descriptor = {}
-        animation = animation or self.driver.animation
+        animation = animation or self.animation
 
         if animation is None:
             descriptor["animation_name"] = "null"
             descriptor["speed"] = 0
+            descriptor["is_playing"] = False
             return descriptor
 
         name = led.animation_type.from_instance(animation)
         descriptor["animation_name"] = name
         descriptor["speed"] = animation.speed
+        descriptor["is_playing"] = not animation._paused
 
         if name in scolor_animations:
             descriptor["color"] = animation.color
@@ -92,5 +92,5 @@ class LEDApp:
 
     def request_animation(self, request):
         animation = led.parse.resolve_animation(request.form, self.driver.pixels)
-        self.set_animation(animation)
+        self.animation = animation
         return self.get_animation_descriptor()
