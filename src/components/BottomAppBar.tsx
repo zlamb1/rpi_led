@@ -50,7 +50,7 @@ export default function BottomAppBar() {
   }
 
   return (
-    <AppBar position="fixed" color="primary" sx={{top: 'auto', bottom: 0}}>
+    <AppBar position="fixed" color="transparent" elevation={0} sx={{top: 'auto', bottom: 0}}>
       <Toolbar>
         <StyledFab aria-label="play" onClick={onPlay}>
           <PlayIndicator/>
