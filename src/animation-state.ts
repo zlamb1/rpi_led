@@ -4,6 +4,7 @@ export interface AnimationState {
   animation_name: string;
   speed: number;
   color: string;
+  is_playing: boolean;
 }
 
 type AnimationStateContext = {
