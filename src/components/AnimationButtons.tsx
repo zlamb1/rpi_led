@@ -1,19 +1,8 @@
-import {ReactNode, useContext} from "react";
+import {useContext} from "react";
 import Button from "@mui/material/Button";
 import {AnimationProps, getAnimationValue, LED_ANIMATIONS} from "../animation-props.ts";
-import {
-  ActiveAnimationState,
-  AnimationState,
-  isAnimationState,
-  PossibleAnimationState
-} from "../animation-state.ts";
+import {ActiveAnimationState, AnimationState, isAnimationState, PossibleAnimationState} from "../animation-state.ts";
 import {API_ENDPOINT, formatState} from "../api-helper.ts";
-
-interface AnimationButtonProps {
-  label: string;
-  value?: string;
-  icon?: ReactNode;
-}
 
 export default function AnimationButtons({className}: {
   className?: string,
@@ -21,12 +10,7 @@ export default function AnimationButtons({className}: {
   const {state, setState} = useContext(ActiveAnimationState);
   const {state: possibleState, setState: setPossibleState} = useContext(PossibleAnimationState);
 
-  const animations: AnimationButtonProps[] = LED_ANIMATIONS.map((props: AnimationProps) => ({
-    label: props.label,
-    value: props?.value
-  }));
-
-  async function onSetAnimation(props: AnimationButtonProps) {
+  async function onSetAnimation(props: AnimationProps) {
     const name = getAnimationValue(props);
 
     if (name.toLowerCase() === state?.animation_name?.toLowerCase() || name.toLowerCase() === possibleState?.animation_name?.toLowerCase()) {
@@ -48,7 +32,7 @@ export default function AnimationButtons({className}: {
     }
   }
 
-  return animations.map(props => {
+  return LED_ANIMATIONS.map(props => {
     const value = getAnimationValue(props)?.toLowerCase();
     const isActive = value === state?.animation_name?.toLowerCase?.();
     const isPossible = value === possibleState?.animation_name?.toLowerCase?.();

@@ -5,7 +5,7 @@ import '@fontsource/roboto/400.css';
 import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
 
-import {useEffect, useState} from 'react';
+import {Fragment, useEffect, useState} from 'react';
 import {Box, Card, CardContent, CardHeader, Divider} from "@mui/material";
 import NetworkDialog from "./components/NetworkDialog.tsx";
 import AnimationButtons from "./components/AnimationButtons.tsx";
@@ -66,16 +66,6 @@ export default function App() {
     props => getAnimationValue(props)?.toLowerCase() === possibleState?.animation_name?.toLowerCase()
   );
 
-  function renderColorPicker() {
-    if (animationProps?.color) {
-      return (
-        <HexColorPicker color={possibleState?.color}
-                        onChange={color => setPossibleState(prev => ({...prev, color} as AnimationState))}
-        />
-      );
-    }
-  }
-
   return (
     <ActiveAnimationState.Provider value={{state, setState: setAnimationState}}>
       <PossibleAnimationState.Provider value={{state: possibleState, setState: setPossibleState}}>
@@ -93,8 +83,15 @@ export default function App() {
                     <div className="grid grid-cols-2 sm:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-1">
                       <AnimationButtons className="flex-1"/>
                     </div>
-                    <Divider className="w-full"/>
-                    {renderColorPicker()}
+                    {
+                      animationProps?.color &&
+                        <Fragment>
+                          <Divider className="w-full"/>
+                          <HexColorPicker color={possibleState?.color}
+                                          onChange={color => setPossibleState(prev => ({...prev, color} as AnimationState))}
+                          />
+                        </Fragment>
+                    }
                   </CardContent>
                 </Card>
                 <Card className="p-3 px-8 w-[95%] sm:w-[50%]">
