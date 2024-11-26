@@ -5,25 +5,32 @@ import {useContext} from "react";
 import {
   ActiveAnimationState,
   AnimationState,
+  AnimationStateSynced,
   isAnimationState,
   PossibleAnimationState
 } from "../animation-state.ts";
+import {setAnimation} from "../animation-api.ts";
 
 export default function PlayButton() {
-  const {setState} = useContext(ActiveAnimationState);
+  const {state, setState} = useContext(ActiveAnimationState);
   const {state: possibleState} = useContext(PossibleAnimationState);
+  const isSynced = useContext(AnimationStateSynced);
 
   const is_playing = possibleState?.is_playing;
 
   async function onClick() {
     try {
-      const res = await fetch(`${API_ENDPOINT}/api/${is_playing ? "pause" : "resume"}`, {
-        method: "POST",
-      });
-      const newState = await res.json();
-      if (isAnimationState(newState)) {
-        formatState(newState);
-        setState?.(newState as AnimationState);
+      if (isSynced) {
+        const res = await fetch(`${API_ENDPOINT}/api/${state?.is_playing ? "pause" : "resume"}`, {
+          method: "POST",
+        });
+        const newState = await res.json();
+        if (isAnimationState(newState)) {
+          formatState(newState);
+          setState?.(newState as AnimationState);
+        }
+      } else {
+        await setAnimation(possibleState, setState);
       }
     } catch (_) {
       /* empty */

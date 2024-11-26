@@ -58,7 +58,7 @@ export default function App() {
     if (_.isEqual(prevState, possibleState)) {
       // if we don't have any pending changes then update possible state to match new state
       setPossibleState(state);
-    } else if (possibleState?.is_playing) {
+    } else if (!isSynced && possibleState?.is_playing) {
       // the possible state is out of sync with the active state and should not be playing
       setPossibleState(prev => ({...prev, is_playing: false} as AnimationState));
     }
