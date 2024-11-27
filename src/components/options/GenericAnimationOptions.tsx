@@ -3,6 +3,7 @@ import {ChangeEvent, Dispatch, SetStateAction} from "react";
 import {FormControl} from "@mui/base";
 import {FormHelperText, FormLabel} from "@mui/material";
 import Switch from "../Switch.tsx";
+import NumericInput from "../../NumericInput.tsx";
 import {NumberInput} from "../NumberInput.tsx";
 
 export function ReverseFormControl({state, setState}: {
@@ -37,16 +38,17 @@ export function NumericFormControl({property, label, helperText, min = 0, max, s
   return (
     <FormControl>
       {label && <FormLabel>{label}</FormLabel>}
-      <NumberInput value={state?.[property as keyof AnimationState] as number ?? 0}
-                   onChange={(_evt, value) => setState?.(prev => ({
-                     ...prev,
-                     [property]: Math.round((value ?? 0) * 10) / 10
-                   } as AnimationState))}
-                   placeholder={label && `Enter ${label.toLowerCase()}`}
-                   min={min}
-                   max={max}
-                   step={step}
+      <NumericInput value={state?.[property as keyof AnimationState] as number}
+                    onChange={(value?: number) => setState?.(prev => ({
+                      ...prev,
+                      [property]: value
+                    } as AnimationState))}
+                    placeholder={label && `Enter ${label.toLowerCase()}`}
+                    min={min}
+                    max={max}
+                    step={step}
       />
+      <NumberInput/>
       {helperText && <FormHelperText>{helperText}</FormHelperText>}
     </FormControl>
   );
