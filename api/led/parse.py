@@ -11,6 +11,7 @@ from adafruit_led_animation.animation.rainbowsparkle import RainbowSparkle
 from adafruit_led_animation.animation.solid import Solid
 from adafruit_led_animation.animation.sparkle import Sparkle
 from adafruit_led_animation.animation.sparklepulse import SparklePulse
+from led.animation import Sweep
 from adafruit_led_animation.grid import PixelGrid
 
 def parse_bool(b):
@@ -115,6 +116,8 @@ def resolve_animation(data, pixels):
     if name == 'sparkle_pulse':
         return SparklePulse(pixels, speed, color, period=period,
                             max_intensity=max_intensity, min_intensity=min_intensity)
+    if name == 'sweep':
+        return Sweep(pixels, speed, color)
     if name == 'grid_rain':
         grid = PixelGrid(pixels, 20, 10)
         return Rain(grid, speed, color, count=count, length=length, background=bg_color)

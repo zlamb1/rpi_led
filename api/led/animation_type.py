@@ -13,7 +13,8 @@ class AnimationType(StrEnum):
 	RAINBOW_SPARKLE = 'rainbow_sparkle',
 	SPARKLE_PULSE = 'sparkle_pulse',
 	GRID_RAIN = "grid_rain",
-	MUSIC = 'music'
+	SWEEP = "sweep",
+	MUSIC = "music"
 
 def from_class_name(class_name):
 	parsed_class_name = ''
