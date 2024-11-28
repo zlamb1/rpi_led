@@ -19,6 +19,7 @@ class Sweep(Animation):
         self._size += 1
         if self._size >= num_pixels * 2:
             self.cycle_complete = True
+            self.reset()
 
     def reset(self):
         self._size = 0
