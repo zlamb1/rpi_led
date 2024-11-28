@@ -86,9 +86,6 @@ export default function App() {
     props => getAnimationValue(props)?.toLowerCase() === possibleState?.animation_name?.toLowerCase()
   );
 
-  console.log(state);
-  console.log(possibleState);
-
   return (
     <ActiveAnimationState.Provider value={{state, setState: setAnimationState}}>
       <PossibleAnimationState.Provider value={{state: possibleState, setState: setPossibleState}}>

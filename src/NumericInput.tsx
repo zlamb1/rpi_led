@@ -183,6 +183,7 @@ export default function NumericInput({
   const step = typeof props?.step === 'string' ?
     (props?.step === 'any' ? props?.step : 1) : (props?.step ?? 1);
   const [text, setText] = useState(value?.toFixed?.(precision) ?? '');
+  const inputRef = useRef<HTMLInputElement>(null);
   const divRef = useRef<HTMLDivElement>(null);
   const textAsNumber = Number(text);
 
@@ -248,7 +249,7 @@ export default function NumericInput({
   function onTextChange(evt: ChangeEvent<HTMLInputElement>) {
     const value = evt.target.value;
     const occurrences = step === 'any' ? '+' : `{0,${precision}}`
-    const regex = new RegExp(`^([0-9]+)?(.([0-9]${occurrences})?)?$`, 'g')
+    const regex = new RegExp(`^([0-9]+)?(.([0-9]${occurrences})?)?$`, 'g');
     if (!value || regex.test(value)) {
       setText(value);
     }
@@ -261,11 +262,38 @@ export default function NumericInput({
     }
   }, [setValue, step, value]);
 
+  const onPaste = useCallback((evt: ClipboardEvent) => {
+    const input = inputRef.current;
+    if (evt?.clipboardData && input) {
+      evt.preventDefault();
+      const data = evt.clipboardData.getData('text');
+      const start = input.selectionStart, end = input.selectionEnd, len = text.length;
+      const newText = text?.substring(0, start!) + data + text?.substring(end! + 1, len);
+
+      if (/^([0-9]+(.[0-9]+)?)?$/.test(newText)) {
+        const indexOf = newText.indexOf('.');
+        if (indexOf > -1) {
+          setText(newText.substring(0, indexOf + precision + 1));
+        } else {
+          setText(newText);
+        }
+      }
+    }
+  }, [text, precision]);
+
   useEffect(() => {
     if (divRef.current && stepOnScroll) {
       const div = divRef.current;
       div.addEventListener('wheel', onWheel);
       return () => div.removeEventListener('wheel', onWheel);
+    }
+  });
+
+  useEffect(() => {
+    if (inputRef.current) {
+      const input = inputRef.current;
+      input.addEventListener('paste', onPaste);
+      return () => input.removeEventListener('paste', onPaste);
     }
   });
 
@@ -282,7 +310,7 @@ export default function NumericInput({
           </StyledButton>
         </Fragment>
       }
-      <StyledInputElement {...props} value={text} onChange={onTextChange} inputMode="decimal"
+      <StyledInputElement {...props} value={text} onChange={onTextChange} inputMode="decimal" ref={inputRef}
                           type="text"/>
     </StyledInputRoot>
   );
