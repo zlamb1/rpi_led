@@ -11,7 +11,7 @@ from adafruit_led_animation.animation.rainbowsparkle import RainbowSparkle
 from adafruit_led_animation.animation.solid import Solid
 from adafruit_led_animation.animation.sparkle import Sparkle
 from adafruit_led_animation.animation.sparklepulse import SparklePulse
-from led.animation import Sweep
+from led.animation.sweep import Sweep
 from adafruit_led_animation.grid import PixelGrid
 
 def parse_bool(b):
