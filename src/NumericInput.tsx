@@ -171,6 +171,7 @@ export type NumericInputProps = {
   stepOnScroll?: boolean;
 } & Omit<Omit<ComponentProps<'input'>, "type">, "onChange">;
 
+// TODO: implement step="any" behavior
 export default function NumericInput({
                                        value,
                                        onChange,
