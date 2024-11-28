@@ -96,3 +96,5 @@ export interface GridRainAnimationState extends AnimationState {
   length: number;
   bg_color: string;
 }
+
+export type SweepAnimationState = AnimationState;

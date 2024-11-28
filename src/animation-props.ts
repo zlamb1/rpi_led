@@ -1,5 +1,6 @@
 import {
   AutoAwesome,
+  CleaningServices,
   Equalizer,
   Looks,
   RadioButtonUnchecked,
@@ -35,5 +36,6 @@ export const LED_ANIMATIONS: AnimationProps[] = [
   {label: 'Rainbow Sparkle', value: 'Rainbow_Sparkle', icon: AutoAwesome},
   {label: 'Sparkle Pulse', value: 'Sparkle_Pulse', color: true, icon: AutoAwesome},
   {label: 'Grid Rain', value: 'Grid_Rain', color: true, icon: WaterDrop},
+  {label: 'Sweep', color: true, icon: CleaningServices},
   {label: 'Music', icon: Equalizer},
 ];
