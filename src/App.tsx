@@ -31,7 +31,7 @@ import {
 } from "./animation-state.ts";
 import BottomAppBar from "./components/BottomAppBar.tsx";
 import {AnimationProps, getAnimationValue, LED_ANIMATIONS} from "./animation-props.ts";
-import {API_ENDPOINT, formatState} from "./api-helper.ts";
+import {API_ENDPOINT, formatState, isEqualWithPrecision} from "./api-helper.ts";
 import {HexColorPicker} from "react-colorful";
 import * as _ from "lodash";
 import {FormControl} from "@mui/base";
@@ -46,7 +46,7 @@ export default function App() {
   const [networkError, setNetworkError] = useState<string>('');
   const [counter, setCounter] = useState(1);
 
-  const isSynced = _.isEqual(state, possibleState);
+  const isSynced = _.isEqualWith(state, possibleState, isEqualWithPrecision);
 
   // fetch active animation on load
   useEffect(() => {
@@ -71,7 +71,7 @@ export default function App() {
 
   useEffect(() => {
     if (!isSynced) {
-      if (_.isEqual({...possibleState, is_playing: state?.is_playing}, state)) {
+      if (_.isEqualWith({...possibleState, is_playing: state?.is_playing}, state, isEqualWithPrecision)) {
         setPossibleState(state);
         return;
       }
@@ -85,6 +85,9 @@ export default function App() {
   const animationProps: AnimationProps | undefined = LED_ANIMATIONS.find(
     props => getAnimationValue(props)?.toLowerCase() === possibleState?.animation_name?.toLowerCase()
   );
+
+  console.log(state);
+  console.log(possibleState);
 
   return (
     <ActiveAnimationState.Provider value={{state, setState: setAnimationState}}>

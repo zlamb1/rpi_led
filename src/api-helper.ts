@@ -30,3 +30,13 @@ export function formatState(state: unknown) {
     }
   }
 }
+
+const precision = 0.000001;
+
+export function isEqualWithPrecision(value1: unknown, value2: unknown) {
+  if (typeof value1 === 'number' && typeof value2 === 'number') {
+    return Math.abs(value1 - value2) < precision;
+  }
+  // for other types, use default Lodash comparison
+  return undefined;
+}
