@@ -32,10 +32,8 @@ class LEDDriver:
 		self.pixels.show()
 	
 	def update(self):
-		delta = time.perf_counter() - self.lastFrame
-		if (1/60) < delta:
-			self.resource_lock.acquire()
-			self.animation.animate()
-			self.pixels.show()
-			self.resource_lock.release()
-			self.lastFrame = time.perf_counter()
+		self.resource_lock.acquire()
+		self.animation.animate()
+		self.pixels.show()
+		self.resource_lock.release()
+		self.lastFrame = time.perf_counter()
