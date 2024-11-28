@@ -5,7 +5,6 @@ from adafruit_led_animation.color import BLACK
 class Sweep(Animation):
     def __init__(self, pixel_object, speed, color, name=None):
         self._size = 0
-        self._direction = 0
         super().__init__(pixel_object, speed, color, name=name)
 
     on_cycle_complete_supported = True
