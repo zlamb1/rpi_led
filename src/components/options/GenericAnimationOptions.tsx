@@ -4,7 +4,6 @@ import {FormControl} from "@mui/base";
 import {FormHelperText, FormLabel} from "@mui/material";
 import Switch from "../Switch.tsx";
 import NumericInput from "../../NumericInput.tsx";
-import {NumberInput} from "../NumberInput.tsx";
 
 export function ReverseFormControl({state, setState}: {
   state?: AnimationState & { reverse?: boolean },
@@ -37,7 +36,7 @@ export function NumericFormControl({property, label, helperText, min = 0, max, s
 }) {
   return (
     <FormControl>
-      {label && <FormLabel>{label}</FormLabel>}
+      {label && <FormLabel>{label} + {state?.[property as keyof AnimationState]}</FormLabel>}
       <NumericInput value={state?.[property as keyof AnimationState] as number}
                     onChange={(value?: number) => setState?.(prev => ({
                       ...prev,
@@ -46,10 +45,11 @@ export function NumericFormControl({property, label, helperText, min = 0, max, s
                     placeholder={label && `Enter ${label.toLowerCase()}`}
                     min={min}
                     max={max}
-                    step={step}
+                    step={0.1}
       />
-      <NumberInput/>
-      {helperText && <FormHelperText>{helperText}</FormHelperText>}
+      {helperText && <FormHelperText>{helperText}</FormHelperText>
+      }
     </FormControl>
-  );
+  )
+    ;
 }
