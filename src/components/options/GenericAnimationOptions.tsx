@@ -24,7 +24,7 @@ export function ReverseFormControl({state, setState}: {
   );
 }
 
-export function NumericFormControl({property, label, helperText, min = 0, max, step, state, setState}: {
+export function NumericFormControl({property, label, helperText, min, max, step, state, setState}: {
   property: string;
   label?: string;
   helperText?: string;

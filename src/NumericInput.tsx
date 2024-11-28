@@ -203,12 +203,11 @@ export default function NumericInput({
   }, [step]);
 
   const setValue = useCallback((_value?: number | string) => {
-    if (_value == null || _value === '') {
-      return onChange?.(undefined);
-    }
-
-    if (_value === '.') {
-      return onChange?.(0);
+    if (_value == null || _value === '' || _value === '.' || _value === '-' || _value === '-.') {
+      if (value != null) {
+        return onChange?.(undefined);
+      }
+      return;
     }
 
     if (typeof _value === 'string') {
@@ -250,7 +249,7 @@ export default function NumericInput({
   function onTextChange(evt: ChangeEvent<HTMLInputElement>) {
     const value = evt.target.value;
     const occurrences = step === 'any' ? '+' : `{0,${precision}}`
-    const regex = new RegExp(`^([0-9]+)?(.([0-9]${occurrences})?)?$`, 'g');
+    const regex = new RegExp(`^-?[0-9]*(\\.([0-9]${occurrences})?)?$`);
     if (!value || regex.test(value)) {
       setText(value);
     }
@@ -271,7 +270,7 @@ export default function NumericInput({
       const start = input.selectionStart, end = input.selectionEnd, len = text.length;
       const newText = text?.substring(0, start!) + data + text?.substring(end! + 1, len);
 
-      if (/^([0-9]+(.[0-9]+)?)?$/.test(newText)) {
+      if (/^-?[0-9]*(\.[0-9]+)?$/.test(newText)) {
         const indexOf = newText.indexOf('.');
         if (indexOf > -1) {
           setText(newText.substring(0, indexOf + precision + 1));
